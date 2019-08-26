@@ -1,0 +1,1439 @@
+@import "fonts";
+
+body {background-color: #ededed;font-family:lato,helvetica;font-size: 14px;padding:0px;margin:0px;}
+
+$branco:#fff8f8;
+$cinzafracobg:rgba(0,0,0,0.03);
+$cinzafraco:#ededed;
+$cinza:#7f7f7f;
+$cinzaforte:#1b1c1d;
+$verde:#4dc168;
+$verdeforte:#21ba45;
+$azul:rgba(33, 133, 208, 0.9);
+$azulforte:rgba(33, 133, 208, 1);
+$borda:rgba(255, 255, 255, 0.1);
+$vermelho:#db2828;
+$amarelo:#c8c800;
+
+
+// minha conta
+.minha-conta{
+    width: 100%;
+    display: table;
+    padding-bottom: 25px;
+    .info-perfil{
+        border-bottom: 2px solid $verdeforte;
+        display: table-cell;
+        vertical-align: middle;
+        padding: 15px;
+        .table{
+            display: table;
+            width: 100%;
+            .nome,.permissoes,.contato{
+                cursor: default;
+                display: table-cell;
+                vertical-align: middle;
+            }
+            .nome{
+                span{
+                    display: block;
+                    text-transform: uppercase;
+                    color: $cinzaforte;
+                    font-size: 24px;
+                    font-weight: 600;
+                }
+                .editar{
+                    text-align: center;
+                    padding: 5px 10px;
+                    border-radius: 5px;
+                    transition-duration: 0.3s;
+                    font-size: 11px;
+                    cursor: pointer;
+                    background: $verde;
+                    color: $branco;
+                    i{
+                        padding: 10px;
+                        padding-bottom: 0px;
+                        padding-left: 0px;
+                        margin: 0px;
+                    }
+                }
+            }
+            .permissoes{
+                text-align: left;
+                font-size: 16px;
+                color: $cinzaforte;
+                .item-list{
+                    display: block;
+                    padding: 2px;
+                    &.titulo-lista{
+                        padding-bottom: 4px;
+                        font-weight: 600;
+                    }
+                }
+            }
+            .contato{
+                .tab{
+                    display: table;
+                    width: 100%;
+                    text-align: right;
+                    padding: 5px 0px;
+                    span{
+                        display: table-cell;
+                        vertical-align: middle;
+                        padding: 5px;
+                        padding-right: 10px;
+                        color: $cinzaforte;
+                        font-size: 18px;
+                    }
+                    i{
+                        display: table-cell;
+                        vertical-align: middle;
+                        color: $cinzaforte;
+                        padding: 7px;
+                        height: 20px;
+                        width: 20px;
+                        border: 2px solid $verdeforte;
+                        border-radius: 50%;
+                        overflow: hidden;
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+    .icone-imagem{
+        display: table-cell;
+        vertical-align: middle;
+        width: 175px;
+        i,img{
+            height: 150px;
+            width: 150px;
+            border: 2px solid $verdeforte;
+            border-radius: 50%;
+            overflow: hidden;
+            font-size: 150px;
+        }
+    }
+}
+
+// cadastroempresa
+.cadastroempresa{
+    width: 100%;
+    height: 100vh;
+    background: $cinzafraco;
+    position: relative;
+    .formulario{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        display: block;
+        background: $branco;
+        border-radius: 5px;
+        border: 1px solid $cinza;
+        padding: 50px;
+        .titulo-cadastroempresa{
+            margin-bottom: 25px;
+            padding: 5px;
+            font-weight: 600;
+            font-size: 24px;
+            border-bottom: 1px solid $cinza;
+            color: $cinzaforte;
+        }
+        .conteudo{
+            display: table;
+            width: 100%;
+            .col.x2{width: 50%;}
+            .col.x3{width: 33.33%;}
+            .col{
+                display: table-cell;
+                vertical-align: top;
+                .titulo-checkbox{
+                    display: block;
+                    padding: 15px 0px;
+                    font-weight: 600;
+                    font-size: 18px;
+                }
+                .boxlista{
+                    max-height: 50vh;
+                    overflow: auto;
+                    display: block;
+                    .item.off{display: none;}
+                    .item{
+                        transition-duration: 0.3s;
+                        display: block;
+                        padding: 3px 0px;
+                        border-bottom: 1px solid $cinzafraco;
+                        span{
+                            text-align: left;
+                            cursor: default;
+                            display: inline-block;
+                            vertical-align: middle;
+                            font-style: normal;
+                            font-size: 15px;
+                        }
+                        input[type=checkbox] {
+                            cursor: pointer;
+                            display: inline-block;
+                            vertical-align: middle;
+                            width: 20px;
+                            height: 20px;
+                        }
+                    }
+                }
+            }
+        }
+        .botoes-rodape{
+            margin-top: 10px;
+            .salvar,.cancelar{
+                display: inline-block;
+                border-radius: 5px;
+                transition-duration: 0.3s;
+                opacity: 0.8;
+                a,button{
+                    cursor: pointer;
+                    display: inline-block;
+                    font-size: 15px;
+                    padding: 10px 20px;
+                    background: none;
+                    border: none;
+                }
+                &:hover{
+                    opacity: 1;
+                }
+            }
+            .salvar{
+                background: $verde;
+                float: right;
+                a,button{
+                    color: $branco;
+                }
+            }
+            .cancelar{
+                background: $cinzafraco;
+                float: left;
+                a,button{
+                    color: $cinzaforte;
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+// index login
+.login{
+    width: 100%;
+    height: 100vh;
+    background: $cinzafraco;
+    position: relative;
+    .bloco{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, -50%);
+        max-width: 90%;
+        .logo{
+            display: block;
+            max-width: 80%;
+            max-height: 100px;
+            margin: 25px auto;
+        }
+        .formulario{
+            border-radius: 5px;
+            border: 1px solid $cinzafraco;
+            background: $branco;
+            padding: 15px;
+            .input{
+                padding-bottom: 15px;
+                color: $cinza;
+                i{
+                    position: absolute;
+                    padding: 15px;
+                    color: $cinzaforte;
+                }
+                input{
+                    width: 100%;
+                    font-size: 14px;
+                    background: $branco;
+                    border: 1px solid $cinzafraco;
+                    border-radius: 5px;
+                    padding: 15px 0px;
+                    color: $cinzaforte;
+                    text-indent: 45px;
+                }
+            }
+            .buttonlogin{
+                width: 100%;
+                padding: 10px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: 600;
+                background: $verde;
+                border: none;
+                border-radius: 5px;
+                color: $branco;
+                transition-duration: 0.3s;
+                &:hover{
+                    background: $verdeforte;
+                }
+            }
+        }
+        .erro{
+            padding: 15px;
+            display: none;
+        }
+    }
+}
+// home
+.tela{
+    display:table;
+    width:100%;
+    min-height:100vh;
+    .sidebar:hover,.sidebar.ativo{
+        left: 0;
+        transition-duration: 0.3s;
+        transition-delay: 0s;
+    }
+    .sidebar.fixa{
+        left: 0%;
+        #fixa-sidebar{
+            i{
+                transform: rotate(-180deg);
+                transition-duration: 0.3s;
+            }
+        }
+    }
+    .sidebar{
+        z-index: 10;
+        transition-delay: 0.3s;
+        display: table-cell;
+        position: fixed;
+        transition-duration: 0.3s;
+        left: -17%;
+        width: 20%;
+        top: 0;
+        bottom: 0;
+        background: $cinzaforte;
+        &:hover{
+            left: 0;
+            transition-duration: 0.3s;
+        }
+        .logo{
+            padding: 15px;
+            border-bottom: 1px solid $borda;
+            position: relative;
+            #fixa-sidebar{
+                background: $cinzaforte;
+                padding: 10px 5px;
+                left: 95%;
+                border-bottom-right-radius: 5px;
+                top: 0;
+                position: absolute;
+                color: $branco;
+                font-size: 16px;
+                i{
+                    margin: 0px;
+                    opacity: 0.4;
+                    transition-duration: 0.3s;
+
+                }
+                &:hover{
+                    i{
+                        opacity: 1;
+                        transform: rotate(-90deg);
+                        transition-duration: 0.3s;
+                    }
+                }
+            }
+            img{
+                overflow: hidden;
+                display:block;
+                max-width: 100%;
+                max-height:30px;
+                margin:0px auto;
+                border: none;
+            }
+        }
+        #permissaoesMenu{
+            overflow-x: hidden;
+            overflow-y: scroll;
+            &::-webkit-scrollbar {width: 0px;}// oculta scrollbar
+            position: absolute;
+            top: 60px;// altura da logo + margem da imagem
+            bottom: 0;
+            width: 100%;
+            .item-menu{
+                overflow: hidden;
+                cursor: pointer;
+                color: $branco;
+                border-bottom: 1px solid $borda;
+                display: table;
+                width: 100%;
+                span{
+                    overflow: hidden;
+                    padding: 15px;
+                    float: left;
+                }
+                i{
+                    overflow: hidden;
+                    padding: 15px;
+                    float: right;
+                    width: 3%;
+                    transition-duration: 0.3s;
+                }
+                &.rotate.ativo{
+                    i{
+                        transition-duration: 0.3s;
+                        transform: rotate(-90deg);
+                    }
+                }
+            }
+            .item-menu:hover, .item-menu.ativo{
+                border-left: 3px solid $verdeforte;
+                background: $borda;
+            }
+            .submenu{
+                display: none;
+                .item-submenu{
+                    display: block;
+                    cursor: pointer;
+                    padding: 7px 30px;
+                    color: $branco;
+                    opacity: 0.7;
+                    font-size: 12px;
+                    i{
+                        float: right;
+                    }
+                }
+                .item-submenu:hover, .item-submenu.ativo{
+                    border-left: 3px solid $verdeforte;
+                    background: $borda;
+                    opacity: 1;
+                }
+            }
+            .submenu.ativo{
+                display: block;
+            }
+        }
+    }
+    .url-topbar{display:none;}
+    .url-topbar.active{display:block;}
+    .topbar.fixa{left: 20%;}
+    .topbar{
+        z-index: 9;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 3%;
+        .menu{
+            background: $verde;
+            border-bottom: 2px solid $verdeforte;
+            .item{
+                transition-duration: 0.3s;
+                display: inline-block;
+                span{
+                    font-size: 12px;
+                    display: block;
+                    padding: 10px 20px;
+                    cursor: pointer;
+                }
+                a{
+                    font-weight: 600;
+                    color: $cinzaforte;
+                    text-decoration: none;
+                    opacity: 0.6;
+                    &:hover{opacity: 1;}
+                }
+                a.last{
+                    font-size: 14px;
+                    opacity: 1;
+                }
+            }
+            .button-sair{
+                transition-duration: 0.3s;
+                cursor: pointer;
+                background: transparent;
+                font-size: 14px;
+                font-weight: 600;
+                padding: 10px 20px;
+                float: right;
+                border-bottom: 2px solid transparent;
+                opacity: 0.5;
+            }
+            .button-sair:hover{
+                border-bottom: 2px solid $cinzaforte;
+                opacity: 1;
+            }
+        }
+    }
+    .bloco-principal.fixa{margin-left: 0;margin-left: 20%;}
+    .bloco-principal{
+        position: relative;
+        top: 0;
+        margin-left: 3%;
+        padding: 25px;
+        .content{
+            padding: 10px;
+            background: red;
+            border-radius: 5px;
+        }
+        .content{
+            padding: 10px;
+            margin-top: 5.5%;
+            background:$branco;
+            width:95%;
+            border-radius:5px;
+            box-shadow:0 0 2px $cinza;
+            .muda{
+                padding:25px;
+            }
+            .carregando{
+                display: none;
+                padding: 25px;
+            }
+        }
+    }
+}
+// modal
+.itemBusca.off{display: none !important;}
+.modal{
+    z-index: 999 !important;
+    display: none;
+    position: fixed;
+    overflow: auto;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.75);
+    .content-modal{
+        width: 70%;
+        position: absolute;
+        top: 50px;
+        margin-bottom: 50px;
+        left: 50%;
+        margin-right: -50%;
+        transform: translate(-50%, 0%);
+        background: #fff;
+        border-radius: 5px;
+        padding: 25px;
+        .titulo-modal{
+            width: 100%;
+            border-bottom: 1px solid $cinzafraco;
+            margin-bottom: 15px;
+            display: table;
+            .titulo{
+                display: table-cell;
+                width: 95%;
+                padding: 10px;
+                color: $cinzaforte;
+            }
+            .close{
+                display: table-cell;
+                padding: 10px;
+                width: 5%;
+                opacity: 0.75;
+                cursor: pointer;
+                transition-duration: 0.3s;
+                i{
+                    padding: 0;
+                }
+                &:hover{
+                    opacity: 1;
+                }
+            }
+        }
+        .form{
+            width: 100%;
+            // display: block;
+            .conteudo{
+                display: table;
+                width: 100%;
+                .titulo-alteraSenha{
+                    float: right;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: $cinza;
+                    cursor: pointer;
+                    background: $cinzafraco;
+                    border-radius: 5px;
+                    padding: 5px 10px;
+                    transition-duration: 0.3s;
+                    &:hover{
+                        background: rgba($cinzaforte,0.15);
+                        transition-duration: 0.3s;
+                    }
+                }
+                .col.x2{width: 50%;}
+                .col.x3{width: 33.33%;}
+                .col{
+                    display: table-cell;
+                    vertical-align: top;
+                    .titulo-checkbox{
+                        display: block;
+                        padding: 15px 0px;
+                        font-weight: 600;
+                        font-size: 18px;
+                    }
+                    .boxlista{
+                        max-height: 50vh;
+                        overflow: auto;
+                        display: block;
+                        .item.off{display: none;}
+                        .item{
+                            transition-duration: 0.3s;
+                            display: block;
+                            padding: 3px 0px;
+                            border-bottom: 1px solid $cinzafraco;
+                            span{
+                                text-align: left;
+                                cursor: default;
+                                display: inline-block;
+                                vertical-align: middle;
+                                font-style: normal;
+                                font-size: 15px;
+                            }
+                            input[type=checkbox] {
+                                cursor: pointer;
+                                display: inline-block;
+                                vertical-align: middle;
+                                width: 20px;
+                                height: 20px;
+                            }
+                        }
+                    }
+                }
+            }
+            .botoes-rodape{
+                margin-top: 10px;
+                .salvar,.cancelar{
+                    display: inline-block;
+                    border-radius: 5px;
+                    transition-duration: 0.3s;
+                    opacity: 0.8;
+                    a,button{
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 15px;
+                        padding: 10px 20px;
+                        background: none;
+                        border: none;
+                    }
+                    &:hover{
+                        opacity: 1;
+                    }
+                }
+                .salvar{
+                    background: $verde;
+                    float: right;
+                    a,button{
+                        color: $branco;
+                    }
+                }
+                .salvar.deletar{background: $vermelho;}
+                .cancelar{
+                    background: $cinzafraco;
+                    float: left;
+                    a,button{
+                        color: $cinzaforte;
+                    }
+                }
+            }
+        }
+    }
+}
+// titulo padrao no topo de cada pagina
+.titulo{
+    font-size: 18px;
+    font-weight: 700;
+    color: $cinzaforte;
+    margin: 10px 0px 25px 0px;
+    cursor: default;
+}
+// padrao botao novo (icone a esquerda cor e hover opacity)
+.botaoNovo{
+    display: inline-block;
+    position: relative;
+    a{
+        font-size: 14px;
+        color: $branco;
+        padding: 10px 10px 10px 0px;
+        border-radius: 5px;
+        background: $azul;
+        transition-duration: 0.3s;
+        i{
+            border-radius: 5px;
+            line-height: 1;
+            background: $azulforte;
+            padding: 10.7px;
+        }
+        &:hover{
+            background: $azulforte;
+            cursor: pointer;
+        }
+    }
+}
+// padrao botao edita deletar (cor icone tamanho table etc)
+.buttonItem{
+    width: 100%;
+    .del,.edita{
+        height: 100%;
+        cursor: pointer;
+        display: inline-block;
+        color: $branco;
+        border: none;
+        border-radius: 5px;
+        text-align: center;
+        font-size: 14px;
+        i{
+            line-height: 1;
+            margin: 0px;
+            padding: 10px;
+        }
+    }
+    .edita{
+        background-color: $verdeforte;
+    }
+    .del{
+        background-color: $vermelho;
+    }
+}
+// input style (borda/padding/icone obrigatorio etc)
+.input-div{
+    display: block;
+    width: 90%;
+    margin: 10px 0px;
+    .titulo-input{
+        padding: 5px;
+        font-size: 14px;
+        color: $cinzaforte;
+    }
+    .input{
+        width: 100%;
+        display: -webkit-box;
+        .icone.time1{
+            width: 60%;
+        }
+        .icone.time2{
+            width: 40%;
+            select{
+                padding-right: 0px;
+            }
+        }
+        .icone{
+            position: relative;
+            width: 100%;
+            input,textarea,select{
+                font-size: 14px;
+                font-family:lato,helvetica;
+                position: relative;
+                background: transparent;
+                width: 100%;
+                padding: 10px;
+                padding-right: 35px;
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                display: inline-block;
+                border-radius: 5px;
+                border: 1px solid $cinzafraco;
+                z-index: 999 !important;
+                resize: vertical;
+                overflow: auto;
+                height: 39px;
+                min-height: 39px;
+                max-height: 50vh;
+            }
+            input[type="time"]{
+                overflow: hidden;
+                resize: none;
+            }
+            .bord{
+                position: absolute;
+                right: 0;
+                top: 0;
+                border: 18px solid;
+                border-color: rgba(240,240,240,1) rgba(240,240,240,1) transparent transparent;
+                border-radius: 5px;
+            }
+            i{
+                font-size: 10px;
+                position: absolute;
+                padding: 5px;
+                right: 0;
+                top: 0;
+            }
+        }
+    }
+    .validaSenha,.usuarioExistente{
+        display: none;
+    }
+}
+// botoes mudar tipo de item (oculta e ativa/hover/bordas etc)
+.ocultaTipoItem{display: none;}
+.ocultaTipoItem.ativo{display: block;}
+.seletorTipoItem{
+    padding-bottom: 10px;
+    .mudaTipoItem{
+        display: inline-block;
+        cursor: pointer;
+        border:1px solid $cinzafraco;
+        border-bottom-left-radius:5px;
+        border-bottom-right-radius:5px;
+        font-size:13px;
+        font-weight:600;
+        padding:5px 7px;
+        margin-right: 5px;
+        transition-duration: 0.3s;
+        color: $cinza;
+        &:hover{
+            background: $cinzafraco;
+            color: $cinzaforte;
+        }
+    }
+    .mudaTipoItem.ativo{
+        background: $cinzafraco;
+        color: $cinzaforte;
+    }
+}
+// filtro base (so o icone e expande input no click/forms etc)
+.filtro.listagens{
+    display: inline;
+    margin: 0px;
+    position: absolute;
+}
+.filtro{
+    margin: 10px 0px;
+    display: table;
+    .ordenar{
+        display: table-cell;
+        vertical-align: middle;
+        padding: 0px 5px;
+        position: relative;
+        .icon{
+            position: relative;
+            font-size: 16px;
+            padding: 10px;
+            color: rgba($cinzaforte, 0.5);
+            background: $cinzafraco;
+            border-radius: 5px;
+            margin: 0px;
+            transition-duration: 0.3s;
+        }
+        &:hover .icon{background: rgba($cinza,0.3);color: $cinzaforte;cursor: pointer;}
+        &.busca{
+            .buscaInput{
+                transition-duration: 0.5s;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                color: $cinza;
+                background: $cinzafraco;
+                border: none;
+                border-radius: 5px;
+                padding-left: 80%;
+                width: 0;
+                &:focus{width: 300%;}
+            }
+            &:hover{
+                input{width: 300%;}
+                .icon{cursor: pointer;background: $cinzafraco}
+            }
+        }
+        &.novo{
+            .icon{background: $azul;color: $branco;}
+            &:hover .icon{color: $branco;background: $azulforte;}
+        }
+        &.paginacao{
+            color: $cinza;
+            cursor: default;
+
+            input{
+                color: rgba($cinza,0.7);
+                border: 1px solid $cinzafraco;
+                border-radius: 5px;
+                padding: 10px 5px;margin: 0px;
+                width: 35px;
+                &::-webkit-outer-spin-button,&::-webkit-inner-spin-button{margin-left:5px;opacity: 1;cursor:pointer;}
+            }
+        }
+    }
+}
+.alertBg{
+    background: rgba($vermelho,0.3) !important;
+    transition-duration: 0.3s;
+}
+// listagem padrao popUp (bordas/topo/linha superiror verde/etc)
+.listagem{border-top: 3px solid $verdeforte !important;}
+.listagem.controle{border-top: 3px solid $vermelho !important;}
+.listagem.hist{.item:hover{cursor:pointer;}}
+.listagem{
+    margin-top: 20px;
+    border-radius: 5px;
+    border: none;
+    border: 1px solid rgba($cinza, 0.3);
+    .tituloItem{
+        border-bottom: 1px solid $cinzafraco;
+        background: $cinzafracobg;
+        color: $cinzaforte;
+        display: block;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 10px 15px;
+    }
+    .item.reauditado{
+        background: rgba($amarelo, 0.1) !important;
+        .lista,.listItem,.alertIcon{
+            color:$amarelo;
+        }
+    }
+    .item.conforme{background: rgba($verde, 0.1) !important;.lista,.listItem,.alertIcon{color:$verde;}}
+    .item.naoconforme{background: rgba($vermelho, 0.1) !important;.lista,.listItem,.alertIcon{color:$vermelho;};}
+    .item{
+        transition-duration: 0.3s;
+        border-top: none;
+        border-bottom: 1px solid rgba($cinza, 0.3);
+        font-size: 14px;
+        color: $cinzaforte;
+        cursor: default;
+        .topo{
+            color: $cinzaforte;
+            background: $cinzafracobg;
+            font-weight: 600;
+            font-size: 15px;
+            .listItem{
+                span{
+                    padding: 15px;
+                }
+                .paginacaoOrdem{
+                    cursor: pointer;
+                    border-radius: 5px;
+                    padding: 5px;
+                    margin-left: -5px;
+                    transition-duration: 0.3s;
+                    background: $branco;
+                    &:hover{
+                        transition-duration: 0.3s;
+                        background: none;
+                    }
+                }
+            }
+        }
+        .lista{
+            color: $cinzaforte;
+            font-size: 14px;
+            .listItem{
+                padding: 10px 15px;
+            }
+        }
+        .topo,.lista{
+            display: table;
+            width: 100%;
+            table-layout:fixed;
+            .listItem,.buttonItem,.alertIcon{
+                display: table-cell;
+                vertical-align: middle;
+                word-wrap: break-word;
+                color: $cinzaforte;
+                span{
+                    display: block;
+                }
+                input[type=radio]{
+                    cursor: pointer;
+                    width: 17px;
+                    height: 17px;
+                }
+                input:disabled{cursor: default;}
+                .circular{
+                    padding: 3px 0px;
+                    text-align: center;
+                    display: none;
+                    a{
+                        transition-duration: 0.3s;
+                        opacity: 0.5;
+                        cursor: pointer;
+                        font-size: 14px;
+                        width: auto;
+                        border-radius: 100%;
+                        border: none;
+                        background: $cinzafraco;
+                        color: $cinza;
+                        padding: 7px;
+                        line-height: 1;
+                        i{
+                            padding: 0px;
+                            margin: 0px;
+                        }
+                    }
+                    a:hover{
+                        opacity: 1;
+                    }
+                }
+                .input-div{margin: 0px;}
+            }
+            .buttonItem{text-align: center;padding: 10px 0px;width: 7.5%;}
+            .listItem.center{text-align: center;}
+            .listItem.x2{width: 42.5%}
+            .listItem.x3{width: 33.3%}
+            .listItem.x4{width: 21.25%}
+            .listItem.xInput{width: 15%;text-align: center;}
+            .listItem.alertIcon{width: 3%;padding: 10px 15px;}
+        }
+        .lista-naoConforme{
+            .bloco{
+                background: rgba($vermelho,0);
+                transition-duration: 0.3s;
+                position: relative;
+                width: 100%;
+                display: table;
+                .input-table{
+                    width: 20%;
+                    padding: 15px;
+                    display: table-cell;
+                    vertical-align: middle;
+                    .input-div{
+                        width: 100%;
+                        margin: 0px;
+                        .input{
+                            .icone{
+                                input,select{
+                                    padding: 10px;
+                                }
+                            }
+                        }
+                    }
+                }
+                .novaNC-off{
+                    display: none;
+                    top: 0;
+                    bottom: 0;
+                    right: 0;
+                    left: 0;
+                    z-index: 999;
+                    position: absolute;
+                    background: $cinzafraco;
+                    opacity: 0;
+                    transition-duration: 0.3s;
+                    &.on{
+                        display: block;
+                        opacity: 0.5;
+                    }
+                }
+                .alertItem{
+                    display: none;
+                    position: absolute;
+                    bottom: 0;
+                    right: 15px;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}
+// listagem com collapse
+.listagem-collapse{
+    .subtitulo{
+        display: block;
+        font-size: 16px;
+        color: $cinzaforte;
+        margin: 20px 0px 5px 0px;
+        cursor: default;
+    }
+    .bloco-lista{
+        border-radius: 5px;
+        border: 1px solid rgba($cinza, 0.3);
+        box-shadow: 0px 0px 2px $cinzafraco;
+        width: 100%;
+        display: block;
+        .item-lista{
+            display: block;
+            border-top: 2px solid transparent;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            border-bottom: 1px solid rgba($cinza, 0.3);
+            position: relative;
+            opacity: 0.7;
+            transition-duration: 0.3s;
+            .bloco{
+                display: table;
+                width: 100%;
+                .buttonItem,.a{
+                    padding: 7px 0px;
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+                .buttonItem{width: 7%;text-align: center;}
+                .a{
+                    .subbloco{
+                        width: 100%;
+                        display: table;
+                        cursor: pointer;
+                        height: auto;
+                        table-layout:fixed;
+                        .icone{width: 3%;text-align: right;.icon{transform: rotate(-90deg);transition-duration: 0.3s;}}
+                        .doc{width: 15%;text-align: right;}
+                        .icone,.nome,.doc{
+                            padding: 7px 0px;
+                            display: table-cell;
+                            vertical-align: middle;
+                            word-wrap: break-word;
+                            font-size: 16px;
+                            color: $cinzaforte;
+                            .paddingSides{padding: 0px 10px;}
+                        }
+                        .nome,.doc{
+                            span{font-size: 15px;color: $cinzaforte;}
+                        }
+                    }
+                }
+            }
+            .subItem{
+                display: none;
+                padding: 0px 15px;
+                .listaItens{
+                    opacity: 0.7;
+                    display: block;
+                    background: $branco;
+                    margin: 10px 0px;
+                    border: 1px solid rgba($cinza, 0.3);
+                    box-shadow: 0px 0px 2px rgba($cinza, 0.5);
+                    border-radius: 5px;
+                    transition-duration: 0.3s;
+                    .block{
+                        display: table;
+                        width: 100%;
+                        .buttonItem,.line{
+                            display: table-cell;
+                            table-layout:fixed;
+                            vertical-align: middle;
+                            padding: 10px 0px;
+                        }
+                        .buttonItem{width: 7%;text-align: center;}
+                        .line{
+                            .table{
+                                display: table;
+                                width: 100%;
+                                .nome{padding: 0px 10px;}
+                                .icone{width: 3%;text-align: center;.icon{transform: rotate(-90deg);transition-duration: 0.3s;}}
+                                .icone,.nome{
+                                    word-wrap: break-word;
+                                    cursor: pointer;
+                                    display: table-cell;
+                                    vertical-align: middle;
+                                }
+                            }
+                        }
+                    }
+                    .threeItem{
+                        display: none;
+                        padding: 0px 15px 20px 15px;
+                    }
+                    &:hover{
+                        opacity: 1;
+                    }
+                }
+                .listaItens.ativo{
+                    opacity: 1;
+                    border-top: 1px solid $verdeforte;
+                    .block{
+                        .line{
+                            .table{
+                                .icone{.icon{transform: rotate(0deg);}}
+                            }
+                        }
+                    }
+                    .threeItem{
+                        display: block;
+                    }
+                }
+            }
+            &:hover{
+                background: $cinzafracobg;
+                opacity: 1;
+            }
+        }
+        .item-lista.ativo{
+            background: $cinzafracobg;
+            border-top: 2px solid $verdeforte;
+            opacity: 1;
+            .bloco{
+                .a{
+                    .subbloco{
+                        cursor: default;
+                        .icone{.icon{transform: rotate(0deg);}}
+                    }
+                }
+            }
+            .subItem{
+                display: block;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+.modal.processoSetores{
+    .content-modal{
+        #listaModal{
+            .item{
+                transition-duration: 0.3s;
+                padding-bottom: 25px;
+                .titulo-processo{
+                    cursor: default;
+                    font-size: 16px;
+                    padding-bottom: 15px;
+                    display: block;
+                }
+                .lista{
+                    border-radius: 5px;
+                    border: 1px solid $cinzafraco;
+                    border-top: 3px solid $vermelho;
+                    .tipoItem{
+                        background-color: rgba(255, 255, 255, 1);
+                        transition-duration: 0.3s;
+                    }
+                    .tipoItem.alert{
+                        background-color: rgba(219, 40, 40, 0.3);
+                        transition-duration: 0.3s;
+                    }
+                    .topo, .lista-itens,.novaNC{
+                        display: table;
+                        width: 100%;
+                        .item-nome{
+                            padding: 15px;
+                            display: table-cell;
+                            vertical-align: middle;
+                            cursor: default;
+                        }
+                        .item-checkbox{
+                            display: table-cell;
+                            vertical-align: middle;
+                            width: 30%;
+                            text-align: center;
+                            .input, span{
+                                cursor: default;
+                                display: inline-block;
+                                width: 49%;
+                                input[type=radio]{
+                                    cursor: pointer;
+                                    width: 17px;
+                                    height: 17px;
+                                }
+                            }
+                        }
+                        .item-button.alert{
+                            a{
+                                background: $vermelho;
+                                color: $branco;
+                            }
+                        }
+                        .item-button{
+                            display: table-cell;
+                            vertical-align: middle;
+                            width: 20%;
+                            text-align: center;
+                            a{
+                                transition-duration: 0.3s;
+                                opacity: 0.5;
+                                cursor: pointer;
+                                font-size: 14px;
+                                width: auto;
+                                border-radius: 100%;
+                                border: none;
+                                background: $cinzafraco;
+                                color: $cinza;
+                                padding: 7px;
+                                line-height: 1;
+                                i{
+                                    padding: 0px;
+                                    margin: 0px;
+                                }
+                            }
+                            a:hover{
+                                opacity: 1;
+                            }
+                            .circular{
+                                display: none;
+                            }
+                        }
+                        .item-temperatura{
+                            cursor: default;
+                            display: table-cell;
+                            vertical-align: middle;
+                            width: 75%;
+                            text-align: center;
+                            .input{
+                                display: inline-block;
+                                width: 33%;
+                                .icone{
+                                    padding: 15px 15px 15px 0px;
+                                    position: relative;
+                                    width: 60%;
+                                    margin: 0px auto;
+                                    input{
+                                        width: 100%;
+                                        cursor: pointer;
+                                        padding: 10px;
+                                        -webkit-box-sizing: border-box;
+                                        -moz-box-sizing: border-box;
+                                        box-sizing: border-box;
+                                        display: inline-block;
+                                        border-radius: 5px;
+                                        border: 1px solid rgba(0,0,0,0.2);
+                                        padding-right: 35px;
+                                        transition-duration: 0.3s;
+                                    }
+                                    .bord{
+                                        margin: 15px;
+                                        position: absolute;
+                                        right: 0;
+                                        top: 0;
+                                        border: 18px solid;
+                                        border-color: rgba(240,240,240,1) rgba(240,240,240,1) transparent transparent;
+                                        border-radius: 5px;
+                                    }
+                                    i{
+                                        font-size: 10px;
+                                        position: absolute;
+                                        margin: 15px;
+                                        padding: 5px;
+                                        right: 0;
+                                        top: 0;
+                                    }
+                                    input.alert{
+                                        border: 1px solid $vermelho;
+                                        background-color: rgba(219, 40, 40, 0.3);
+                                        transition-duration: 0.3s;
+                                    }
+                                }
+                                .validaTempButton{
+                                    cursor: pointer;
+                                    display: inline-block;
+                                    color: $branco;
+                                    border: none;
+                                    border-radius: 5px;
+                                    text-align: center;
+                                    font-size: 16px;
+                                    background: $verdeforte;
+                                    i{
+                                        line-height: 1;
+                                        margin: 0px;
+                                        padding: 12px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .topo{
+                        background: $cinzafracobg;
+                        .item-nome{
+                            padding: 20px;
+                        }
+                    }
+                    .lista-itens{
+                        border-top: 1px solid rgba(0,0,0,0.05);
+                        font-size: 14px;
+                    }
+                    .novaNC{
+                        position: relative;
+                        display: table;
+                        width: 100%;
+                        .input-15,.input-5{
+                            padding: 0px 15px 5px 15px;
+                            display: table-cell;
+                            position: relative;
+                            cursor: pointer;
+                            .input{
+                                width: 100%;
+                                .icone{
+                                    position: relative;
+                                    input,select{
+                                        width: 100%;
+                                        padding: 7px 10px;
+                                        -webkit-box-sizing: border-box;
+                                        -moz-box-sizing: border-box;
+                                        box-sizing: border-box;
+                                        display: inline-block;
+                                        border-radius: 5px;
+                                        border: 1px solid rgba(0,0,0,0.2);
+                                        position: relative;
+                                    }
+                                    .bord{
+                                        position: absolute;
+                                        right: 0;
+                                        top: 0;
+                                        border: 18px solid;
+                                        border-color: rgba(240,240,240,1) rgba(240,240,240,1) transparent transparent;
+                                        border-radius: 5px;
+                                    }
+                                    i{
+                                        font-size: 10px;
+                                        position: absolute;
+                                        padding: 5px 1px;
+                                        right: 0;
+                                        top: 0;
+                                    }
+                                }
+                            }
+                        }
+                        .input-15{
+                            width: 19%;
+                        }
+                        .input-5{
+                            width: 5%;
+                            .saveNCButton{
+                                padding: 10px 0px;
+                                width: 5%;
+                                .save{
+                                    cursor: pointer;
+                                    display: inline-block;
+                                    color: $branco;
+                                    border: none;
+                                    border-radius: 5px;
+                                    text-align: center;
+                                    font-size: 16px;
+                                    background: $verdeforte;
+                                    i{
+                                        line-height: 1;
+                                        margin: 0px;
+                                        padding: 12px;
+                                    }
+                                }
+                            }
+                        }
+                        .novaNC-off{
+                            display: none;
+                            top: 0;
+                            bottom: 0;
+                            right: 0;
+                            left: 0;
+                            position: absolute;
+                            background: $cinzafraco;
+                            opacity: 0;
+                            transition-duration: 0.3s;
+                            &.on{
+                                display: block;
+                                opacity: 0.5;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

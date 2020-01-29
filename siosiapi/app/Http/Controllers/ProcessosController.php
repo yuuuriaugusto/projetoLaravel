@@ -42,43 +42,33 @@ class ProcessosController extends Controller
         $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));
         $data_atual = date('Y-m-d H:i:s');
         if($data_atual <=  $data_ultimoacesso){
-            //pego todos os processos
-            // $processos = Processos::get();
-            $processos = DB::table('processos')->where('ativo', 1)->orderBy('created_at', 'DESC')->get();
-
-
+           $processos = DB::table('processos')->where('ativo', 1)->orderBy('nome', 'ASC')->get();
             $result = [];
-            //pego todos os setores de cada processo
             for($i=0; $i<count($processos); $i++){
                 $processo = [];
-                $setor = [];
+                $setores = [];
                 $itens = [];
-
                 $processo["processo"] = $processos[$i];
-                $setorproc= DB::table('processos_setors')->where('processos_id', $processos[$i]->id)->orderBy('created_at', 'DESC')->get();
+                $setorproc = DB::table('processos_setors')->select('setors_id','processos_setors.id AS _idprocessos_setors')->join('setors', 'setors.id', '=', 'processos_setors.setors_id')->where('setors.ativo', 1)->where('processos_id', $processos[$i]->id)->orderBy('setors.nome', 'ASC')->get();
                 for($j = 0; $j<count($setorproc); $j++){
                     $setorAtual = [];
-                    $setorAtual[] = Setors::find($setorproc[$j]->setors_id);
+                    $setorAtual['setor'] = Setors::find($setorproc[$j]->setors_id);
+
                     $item = [];
-                    $itemConformidade = DB::table('itens')->where('ativo', 1)->where('processos_setor_id', $setorproc[$j]->id)->orderBy('created_at', 'DESC')->get();
-                    $itemTemperatura = DB::table('itens_temperaturas')->where('ativo', 1)->where('processo_setor_id', $setorproc[$j]->id)->orderBy('created_at', 'DESC')->get();
+                    $itemConformidade = DB::table('itens')->where('ativo', 1)->where('processos_setor_id' ,$setorproc[$j]->_idprocessos_setors)->orderBy('nome', 'ASC')->get();
+                    $itemTemperatura = DB::table('itens_temperaturas')->where('ativo', 1)->where('processo_setor_id', $setorproc[$j]->_idprocessos_setors)->orderBy('nome', 'ASC')->get();
                     $item["conformidade"] = $itemConformidade;
                     $item["temperatura"] = $itemTemperatura;
                     if(count($item) > 0){
-                        $setor[] = array_merge($setorAtual, compact('item'));
+                        $setores[] = array_merge($setorAtual, compact('item'));
                     }
                     else{
-                        $setor[] = array_merge($setorAtual, []);
-                    }
-
-                }
-
-
-                $result[] = array_merge($processo, compact('setor'));
-            }
-
+                        $setores[] = array_merge($setorAtual, []);
+                    };
+                };
+                $result[] = array_merge($processo, compact('setores'));
+            };
             $listagem = $result;
-
             return response()->json(compact('listagem'), 200);
         }else{
             return response()->json('Token Inválido!');

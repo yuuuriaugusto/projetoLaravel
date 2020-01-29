@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('/reauditarFicha/{processoid}','AuditoriasController@reauditarFichas');
     Route::get('/listaItensParaReauditoria','AuditoriasController@listaItensParaReauditoria');
     Route::get('/listaItensParaReauditoriaTemperatura','AuditoriasTemperaturasController@listaItensParaReauditoriaTemperatura');
+    //
     Route::get('/historico/{idaudito}','AuditoriasController@historico');
     Route::get('/searchprocesso/{busca}','AuditoriasController@searchhistorico');
     Route::get('/ordenar','AuditoriasController@ordenacao');
@@ -93,6 +94,9 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('/detalheAcaoCorretiva/{id}', 'AcaoCorretivaController@listAcaoCorretiva');
     Route::delete('/deletarAcaoCorretiva/{id}', 'AcaoCorretivaController@deleteAC');
     Route::get('/pesquisarAcaoCorretiva/{busca}', 'AcaoCorretivaController@searchacaocorretiva');
+    //acao preventiva
+    Route::get('/listagemAcaoPreventiva', 'AcaoCorretivaController@listAllAcaoPreventiva');
+    Route::get('detalheAcaoPreventiva/{id}', 'AcaoCorretivaController@listAcaoPreventiva');
     //rotas funcionario
     Route::post('/novaFuncionario', 'FuncionariosController@createFuncionario');
     Route::post('/editarFuncionario/{id}', 'FuncionariosController@updateFuncionario');
@@ -117,5 +121,17 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('/detalheEmpresa/{id}', 'EmpresasController@listOne');
     Route::post('/editarEmpresa/{id}', 'EmpresasController@update');
     Route::get('/listagemEstados', 'EmpresasController@listEstados');
+    Route::get('/listagemSegmentos', 'EmpresasController@listSegmentos');
     Route::get('/listagemCidades/{id}', 'EmpresasController@listCidades');
+    // Rotas Relatorios
+    Route::get('/filtraDadosPDF', 'RelatoriosController@filtraDadosPDF');
+    Route::get('/listaSelectProcessos', 'RelatoriosController@listaSelectProcessos');
+    // Rotas Interdições
+    Route::get('/listInterdicoes', 'InterdicoesController@listInterdicoes');
+    Route::get('/listInterdicao/{id}', 'InterdicoesController@listInterdicao');
+    // Rotas Fiscalizações
+    Route::get('/listFiscalizacoes', 'FiscalizacoesController@listFiscalizacoes');
+    //Rotas Previsao de abate
+    Route::post('/novaPrevisaoAbate', 'PrevisaoAbateController@createPrevisaoAbate');
+    Route::get('/listarPrevisaoAbateData/{dataBusca}', 'PrevisaoAbateController@listPrevisaoAbateByDate');
   });

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ItensTemperaturas extends Model
 {
-    protected $fillable = ['processo_setor_id', 'temperatura_minima', 'temperatura_maxima', 'nome', 'ativo'];
+    protected $fillable = ['processo_setor_id', 'temperatura_minima', 'temperatura_maxima', 'nome', 'ativo', 'ajuda'];
     
     
     public function ItensTemperaturas(){

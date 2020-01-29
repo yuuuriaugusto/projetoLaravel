@@ -1,0 +1,105 @@
+<?php
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\Processos;
+
+class SIESeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        DB::table('processos')->insert([
+            ['id'        => 1,
+            'nome'       => '01. Limpeza e Desinfecção/Sanitização (PPHO – Procedimento Padrão de Higiene Operacional)',
+            'documento'  => 'PAC 01',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 2,
+            'nome'       => '02. Higiene, Hábitos Higiênicos e Saúde dos Operários',
+            'documento'  => 'PAC 02',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 3,
+            'nome'       => '03. Água de Abastecimento e Gelo',
+            'documento'  => 'PAC 03',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 4,
+            'nome'       => '04. Controle de Temperaturas',
+            'documento'  => 'PAC 04',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 5,
+            'nome'       => '05. Controle Integrado de Pragas',
+            'documento'  => 'PAC 05',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 6,
+            'nome'       => '06. Análises Laboratoriais, Controle de Formulações e Combate à Fraudes',
+            'documento'  => 'PAC 06',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 7,
+            'nome'       => '07. Controle de Matéria Prima, Ingredientes e Material de Embalagem',
+            'documento'  => 'PAC 07',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 8,
+            'nome'       => '08. Manutenção ( incluindo Instalações e Equipamentos, Iluminação, Ventilação e Controle de Condensação,
+            Águas Residuais e Calibração e Aferição de Instrumentos de Controle de Processo)',
+            'documento'  => 'PAC 08',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 9,
+            'nome'       => '09. Manejo de resíduos',
+            'documento'  => 'PAC 09',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 10,
+            'nome'       => '10. Rastreabilidade e Recolhimento',
+            'documento'  => 'PAC 10',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 11,
+            'nome'       => '11. Procedimentos Sanitários Operacionais (PSO)',
+            'documento'  => 'PAC 11',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 12,
+            'nome'       => '12. Bem Estar Animal',
+            'documento'  => 'PAC 12',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 13,
+            'nome'       => '13. Identificação , Remoção, Segregação e Destinação do Material Especificado de Risco (MER)',
+            'documento'  => 'PAC 13',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+            ['id'        => 14,
+            'nome'       => '14. APPCC – (Análise de Perigos e Pontos Críticos de Controle)',
+            'documento'  => 'PAC 14',
+            'ativo'      => '1',
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s'),],
+        ]);
+    }
+}

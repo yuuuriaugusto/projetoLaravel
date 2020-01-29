@@ -15,10 +15,11 @@ class CreateAcoesCorretivasTable extends Migration
     {
         Schema::create('acoes_corretivas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nome', 255)->nullable();
-            $table->string('descricao', 255)->nullable();
+            $table->string('nome')->nullable();
+            $table->string('descricao')->nullable();
             $table->integer('ativo')->nullable();
             $table->string('tempo', 10)->nullable();
+            $table->integer('preventiva')->nullable();
             $table->timestamps();
         });
     }

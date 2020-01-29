@@ -3,18 +3,18 @@
 <?php include("header.php") ?>
 <body>
     <div class="tela">
-        <div class="bloco-principal fixaX">
-            <div class="topbar fixaX">
+        <div class="bloco-principal fixa">
+            <div class="topbar fixa">
                 <?php include "fixtopbar.php"; ?>
             </div>
-            <div class="sidebar fixaX">
+            <div class="sidebar fixa">
                 <?php include "sidebar.php"; ?>
             </div>
             <div class="content">
                 <div class="muda">
-                    <?php include('pages/old/cadastroEmpresa.php') ?>
+                    <?php include('pages/produtorPrevisaoAbate.php') ?>
                 </div>
-                <div class="carregando">
+                <div class="carregando loading-gif">
                     <img src="img/loading.gif">
                 </div>
             </div>

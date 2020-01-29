@@ -1,4 +1,11 @@
 <!-- modais de alerta/aviso -->
+<div class="modal sucessoCadastrarPrevisaoAbate">
+    <div class="content-modal">
+        <div class="conteudo">
+            Previsão de Abate Cadastrada com sucesso!
+        </div>
+    </div>
+</div>
 <div class="modal semPermisao">
     <div class="content-modal">
         <div class="conteudo">
@@ -9,119 +16,133 @@
 <div class="modal sucessoCadastroEmpresa">
     <div class="content-modal">
         <div class="conteudo">
-            Empresa Cadastrada com suceso!
+            Empresa Cadastrada com sucesso!
         </div>
     </div>
 </div>
 <div class="modal reauditoriaRealizada">
     <div class="content-modal">
         <div class="conteudo">
-            Reauditoria salva com suceso!
+            Reauditoria salva com sucesso!
         </div>
     </div>
 </div>
 <div class="modal itemDeletadoCC">
     <div class="content-modal">
         <div class="conteudo">
-            Item Deletado com suceso!
+            Item Deletado com sucesso!
+        </div>
+    </div>
+</div>
+<div class="modal processoDeletadoCC">
+    <div class="content-modal">
+        <div class="conteudo">
+            Processo Deletado com sucesso!
+        </div>
+    </div>
+</div>
+<div class="modal setorDeletadoCC">
+    <div class="content-modal">
+        <div class="conteudo">
+            Setor Deletado com sucesso!
         </div>
     </div>
 </div>
 <div class="modal processoCadastradoCC">
     <div class="content-modal">
         <div class="conteudo">
-            Processo Cadastrado com suceso!
+            Processo Cadastrado com sucesso!
         </div>
     </div>
 </div>
 <div class="modal processoEditadoCC">
     <div class="content-modal">
         <div class="conteudo">
-            Processo Editado com suceso!
+            Processo Editado com sucesso!
         </div>
     </div>
 </div>
 <div class="modal empresaEditada">
     <div class="content-modal">
         <div class="conteudo">
-            Empresa Editada com suceso!
+            Empresa Editada com sucesso!
         </div>
     </div>
 </div>
 <div class="modal setorCadastradoCC">
     <div class="content-modal">
         <div class="conteudo">
-            Setor Cadastrado com suceso!
+            Setor Cadastrado com sucesso!
         </div>
     </div>
 </div>
 <div class="modal setorEditadoCC">
     <div class="content-modal">
         <div class="conteudo">
-            Setor Editado com suceso!
+            Setor Editado com sucesso!
         </div>
     </div>
 </div>
 <div class="modal itemCadastradoCC">
     <div class="content-modal">
         <div class="conteudo">
-            Item Cadastrado com suceso!
+            Item Cadastrado com sucesso!
         </div>
     </div>
 </div>
 <div class="modal itemEditadoCC">
     <div class="content-modal">
         <div class="conteudo">
-            Item editado com suceso!
+            Item editado com sucesso!
         </div>
     </div>
 </div>
 <div class="modal controleSalvo">
     <div class="content-modal">
         <div class="conteudo">
-            Controle salvo com suceso!
+            Controle salvo com sucesso!
         </div>
     </div>
 </div>
 <div class="modal sucessoExcluirUser">
     <div class="content-modal">
         <div class="conteudo">
-            Usuário excluido com suceso!
+            Usuário excluido com sucesso!
         </div>
     </div>
 </div>
 <div class="modal sucessoEditaUser">
     <div class="content-modal">
         <div class="conteudo">
-            Usuário editado com suceso!
+            Usuário editado com sucesso!
         </div>
     </div>
 </div>
 <div class="modal sucessoCadastroUser">
     <div class="content-modal">
         <div class="conteudo">
-            Usuário cadastrado com suceso!
+            Usuário cadastrado com sucesso!
         </div>
     </div>
 </div>
 <div class="modal sucessoCadastroAC">
     <div class="content-modal">
         <div class="conteudo">
-            Ação Corretiva cadastrada com suceso!
+            Ação Corretiva cadastrada com sucesso!
         </div>
     </div>
 </div>
 <div class="modal sucessoEditaAC">
     <div class="content-modal">
         <div class="conteudo">
-            Ação Corretiva editada com suceso!
+            Ação Corretiva editada com sucesso!
         </div>
     </div>
 </div>
 <div class="modal sucessoInativaAC">
     <div class="content-modal">
         <div class="conteudo">
-            Ação Corretiva inativada com suceso!
+            Ação Corretiva inativada com sucesso!
         </div>
     </div>
 </div>
@@ -170,21 +191,21 @@
 <div class="modal papelCadastrado">
     <div class="content-modal">
         <div class="conteudo">
-            Papel Cadastrado com suceso!
+            Papel Cadastrado com sucesso!
         </div>
     </div>
 </div>
 <div class="modal papelExcluido">
     <div class="content-modal">
         <div class="conteudo">
-            Papel excluido com suceso!
+            Papel excluido com sucesso!
         </div>
     </div>
 </div>
 <div class="modal papelEditado">
     <div class="content-modal">
         <div class="conteudo">
-            Papel editado com suceso!
+            Papel editado com sucesso!
         </div>
     </div>
 </div>

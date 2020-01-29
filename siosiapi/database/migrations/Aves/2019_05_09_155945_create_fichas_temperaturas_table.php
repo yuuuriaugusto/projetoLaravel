@@ -17,8 +17,8 @@ class CreateFichasTemperaturasTable extends Migration
             $table->increments('id');
             $table->double('temperatura_painel')->nullable();
             $table->double('temperatura_aferida')->nullable();
-            $table->integer('reaudita');
-            $table->integer('conforme');
+            $table->integer('reaudita')->nullable();
+            $table->integer('conforme')->nullable();
             $table->integer('id_itens')->unsigned();
             $table->integer('id_auditorias')->unsigned();
             $table->timestamps();

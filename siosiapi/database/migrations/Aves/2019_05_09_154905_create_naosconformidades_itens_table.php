@@ -15,15 +15,16 @@ class CreateNaosconformidadesItensTable extends Migration
     {
         Schema::create('naosconformidades_itens', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('observacoes');
-            $table->integer('statusC');
-            $table->integer('statusNC');
-            $table->timestamp('prazo');
-            $table->integer('id_naoconformidades')->unsigned();
-            $table->integer('id_fichas')->unsigned();
-            $table->integer('id_funcionarios')->unsigned();
-            $table->integer('id_acaocorretivaitens')->unsigned();
-            $table->integer('id_fichastemperaturas')->unsigned();
+            $table->string('observacoes')->nullable();
+            $table->integer('statusC')->nullable();
+            $table->integer('statusNC')->nullable();
+            $table->string('prazo', 10)->nullable();
+            $table->integer('id_naoconformidades')->unsigned()->nullable();
+            $table->integer('id_fichas')->unsigned()->nullable();
+            $table->integer('id_funcionarios')->unsigned()->nullable();
+            $table->integer('id_acaocorretivaitens')->unsigned()->nullable();
+            $table->integer('id_fichastemperaturas')->unsigned()->nullable();
+            $table->integer('id_interdicao')->unsigned()->nullable();
             $table->timestamps();
         });
     }

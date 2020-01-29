@@ -15,8 +15,8 @@ class CreateAutorizacaosTable extends Migration
     {
         Schema::create('autorizacaos', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_papels')->unsigned();
-            $table->integer('id_setors')->unsigned();
+            $table->integer('id_papels')->unsigned()->nullable();
+            $table->integer('id_setors')->unsigned()->nullable();
             $table->timestamps();
         });
     }

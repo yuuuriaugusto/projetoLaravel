@@ -21,7 +21,8 @@ class ItensController extends Controller
 			$processosetor = [
 				"ativo"=>1,
 				"nome"=>$request->input('nome'),
-				"processos_setor_id"=>$item->id
+				"processos_setor_id"=>$item->id,
+				"ajuda"=>$request->input('ajuda')
 			];
 			$teste = Itens::create($processosetor);
 			$naocitens = $request->input('naoconformidades');
@@ -128,7 +129,7 @@ class ItensController extends Controller
 			$itemid = Itens::find($id);
 			$item= DB::table('processos_setors')->where('processos_id', $idprocesso)->where('setors_id', $idsetor)->first();
 				$itemid->nome = $request->input('nome');
-			
+				$itemid->ajuda = $request->input('ajuda');
 				$itemid->save();
 			$naocitens = $request->input('naoconformidades');
 			if(isset($naocitens)){

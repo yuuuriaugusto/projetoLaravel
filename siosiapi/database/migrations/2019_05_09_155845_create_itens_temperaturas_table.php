@@ -18,8 +18,9 @@ class CreateItensTemperaturasTable extends Migration
             $table->string('nome');
             $table->double('temperatura_maxima')->nullable();
             $table->double('temperatura_minima')->nullable();
-            $table->integer('ativo')->nullable();
             $table->integer('processo_setor_id')->unsigned();
+            $table->text('ajuda')->nullable();
+            $table->integer('ativo')->nullable();
             $table->timestamps();
         });
     }

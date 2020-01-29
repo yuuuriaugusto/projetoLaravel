@@ -23,7 +23,8 @@ class ItensTemperaturasController extends Controller{
                 "nome"=>$request->input('nome'),
                 "processo_setor_id"=>$item->id,
                 "temperatura_minima"=>$tempMin,
-                "temperatura_maxima"=>$tempMax
+                "temperatura_maxima"=>$tempMax,
+				"ajuda"=>$request->input('ajuda')
             ];
             $criarItem = ItensTemperaturas::create($processosetor);
             $naocitens = $request->input('naoconformidades');
@@ -68,6 +69,7 @@ class ItensTemperaturasController extends Controller{
             $itemid->nome = $request->input('nome');
             $itemid->temperatura_minima = $request->input('temperatura_minima');
             $itemid->temperatura_maxima = $request->input('temperatura_maxima');
+            $itemid->ajuda = $request->input('ajuda');
             $itemid->save();
             $naocitens = $request->input('naoconformidades');
 			if(isset($naocitens)){

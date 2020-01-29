@@ -56,11 +56,9 @@ class TenantMigrationAves extends Command
     {
         if ($id = $this->argument('id')){
             $empresa = Empresas::find($id);
-
             if ($empresa){
                 $this->exeCommand($empresa);
             }
-
             return;
         }
 
@@ -88,18 +86,6 @@ class TenantMigrationAves extends Command
             '--path'  => '/vendor/laravel/passport/database/migrations',
         ]);
         Artisan::call('db:seed');
-        
-        // Artisan::call('tenant:passport', [
-        //     'id'      => $empresa->id,
-        // ]);
-        // $id = $empresa->id;
-        //$saida = shell_exec('php artisan tenant:passport {$id}');
-        // $saida = `php artisan tenant:passport 'id'=> {$empresa->id}`;
-
-        // $command = 'php artisan tenant:passport ' . ['id' => $empresa->id] .'';
-        // shell_exec($command);
-        
-        // $this->info($command);
         $this->info("Fim da conexão com empresa {$empresa->fantasia}");
         $this->info('-------------------------------------------------');
     }

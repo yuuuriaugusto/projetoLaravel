@@ -15,10 +15,10 @@ class CreateFichasTable extends Migration
     {
         Schema::create('fichas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('conforme');
-            $table->integer('reaudita');
-            $table->integer('id_itens')->unsigned();
-            $table->integer('id_auditorias')->unsigned();
+            $table->integer('conforme')->nullable();
+            $table->integer('reaudita')->nullable();
+            $table->integer('id_itens')->unsigned()->nullable();
+            $table->integer('id_auditorias')->unsigned()->nullable();
             $table->timestamps();
         });
     }

@@ -15,8 +15,8 @@ class CreateNcItensTempsTable extends Migration
     {
         Schema::create('nc_itens_temps', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_itens_temperatura')->unsigned();
-            $table->integer('id_ncitens')->unsigned();
+            $table->integer('id_itens_temperatura')->unsigned()->nullable();
+            $table->integer('id_ncitens')->unsigned()->nullable();
             $table->timestamps();
         });
     }

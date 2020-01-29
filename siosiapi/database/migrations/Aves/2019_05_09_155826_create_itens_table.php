@@ -15,8 +15,10 @@ class CreateItensTable extends Migration
     {
         Schema::create('itens', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('ativo');
-            $table->integer('processos_setor_id')->unsigned();
+            $table->string('nome')->nullable();
+            $table->integer('processos_setor_id')->unsigned()->nullable();
+            $table->text('ajuda')->nullable();
+            $table->integer('ativo')->nullable();
             $table->timestamps();
         });
     }

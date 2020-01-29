@@ -46,6 +46,24 @@ class AcaoCorretivaController extends Controller
         }
     }
 
+    public function listAllAcaoPreventiva(){
+        $user = Auth::user();
+        $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));
+        $data_atual = date('Y-m-d H:i:s');
+        if($data_atual <=  $data_ultimoacesso){
+
+            $acoespreventivasDB = DB::table('acoes_corretivas')->where('ativo', 1)->where('preventiva', 1)->orderBy('created_at', 'DESC')->get();
+            for ($i=0; $i < count($acoespreventivasDB); $i++) {
+                $acoespreventivasAtual = [];
+                $acoespreventivasAtual["acaopreventiva"] = $acoespreventivasDB[$i];
+                $acoespreventivas[] = $acoespreventivasAtual;
+            }
+            return compact('acoespreventivas');
+        }else{
+            return response()->json('Token Inválido!');
+        }
+    }
+
     public function listAcaoCorretiva($id){
         $user = Auth::user();
         $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));
@@ -57,6 +75,19 @@ class AcaoCorretivaController extends Controller
             return response()->json('Token Inválido!');
         }
     }
+
+    public function listAcaoPreventiva($id){
+        $user = Auth::user();
+        $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));
+        $data_atual = date('Y-m-d H:i:s');
+        if($data_atual <=  $data_ultimoacesso){
+            $acaopreventiva = AcoesCorretivas::find($id);
+            return response()->json(compact('acaocorretiva'), 200);
+        }else{
+            return response()->json('Token Inválido!');
+        }
+    }
+
     public function update($id, Request $request){
         $user = Auth::user();
         $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));

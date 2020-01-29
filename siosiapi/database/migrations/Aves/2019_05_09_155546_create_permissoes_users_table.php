@@ -15,8 +15,8 @@ class CreatePermissoesUsersTable extends Migration
     {
         Schema::create('permissoes_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_users')->unsigned();
-            $table->integer('id_permissoes')->unsigned();
+            $table->integer('id_users')->unsigned()->nullable();
+            $table->integer('id_permissoes')->unsigned()->nullable();
             $table->timestamps();
         });
     }

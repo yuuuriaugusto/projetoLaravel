@@ -17,7 +17,7 @@ class CreateProcessosTable extends Migration
             $table->increments('id');
             $table->string('nome');
             $table->string('documento');
-            $table->integer('ativo');
+            $table->integer('ativo')->nullable();
             $table->timestamps();
         });
     }

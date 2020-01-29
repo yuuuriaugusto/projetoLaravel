@@ -4,16 +4,28 @@
 var dadosListagem = [];
 var paginacao = {tamanhoPagina:20,pagina:0};
 function listagemItensParaReauditoria() {
+    $("#listFichas").html("<div class='loading-gif'><img src='img/loading.gif'></div>");
+    dadosListagem = [];
     $.ajax({
         type: 'GET',
         url: urlApi+'listaItensParaReauditoria',
         headers: { 'Authorization': "Bearer " + localStorage.getItem('token') },
         dataType: 'json',
         success: function (data) {
-            dadosListagem = data;
+            if (data.length > 0) {
+                for (i in data) {
+                    if (!data[i].ncItem.itemNC.produtor) {
+                        if (data[i].ncItem != undefined) {
+                            if (validarPermissao(data[i].ncItem.auditoria.id_setors) == true) {
+                                dadosListagem.push({"ncItem":data[i].ncItem});
+                            }
+                        }
+                    }
+                }
+            }
             paginar(dadosListagem,paginacao);
         },
-        error: function(){alert("Não foi possivel realizar a operação!");}
+        error: function(resp){console.log(resp.statusText);}
     });
 }
 listagemItensParaReauditoria();
@@ -22,28 +34,20 @@ function paginar(dados,usepaginacao) {
     var listItensReauditoria = "";
     if (dados.length > 0) {
         for (var i = usepaginacao.pagina * usepaginacao.tamanhoPagina; i < dados.length && i < (usepaginacao.pagina + 1) *  usepaginacao.tamanhoPagina; i++) {
-            if (validarPermissao(dados[i].ncItem.auditoria.id_setors) == true) {
-                var tipoItem = "";
-                if (dados[i].ncItem.itemNC.id_fichas != null) {tipoItem = "conf";}
-                if (dados[i].ncItem.itemNC.id_fichastemperaturas != null) {tipoItem = "temp";}
-                listItensReauditoria +=`
-                <a class="reauditaritem" data-tipo="`+tipoItem+`" data-idncitem="`+dados[i].ncItem.itemNC.id+`" data-iditem="`+dados[i].ncItem.item.id+`" data-idauditoria="`+dados[i].ncItem.auditoria.id+`">
-                <div class="item naoconforme">
-                <div class="lista">
-                <div class="listItem alertIcon">
-                <i class="exclamation triangle icon"></i>
-                </div>
-                <div class="listItem">
-                <span> `+dados[i].ncItem.item.nome+` </span>
-                </div>
-                <div class="listItem">
-                <span> `+dados[i].ncItem.itemNC.prazo+` </span>
-                </div>
-                </div>
-                </div>
-                </a>
-                `;
-            }
+            var tipoItem = "";
+            if (dados[i].ncItem.itemNC.id_fichas != null) {tipoItem = "conf";}
+            if (dados[i].ncItem.itemNC.id_fichastemperaturas != null) {tipoItem = "temp";}
+            listItensReauditoria +=`
+            <a class="reauditaritem" data-tipo="`+tipoItem+`" data-idncitem="`+dados[i].ncItem.itemNC.id+`" data-iditem="`+dados[i].ncItem.item.id+`" data-idauditoria="`+dados[i].ncItem.auditoria.id+`">
+            <div class="item naoconforme">
+            <div class="lista">
+            <div class="listItem alertIcon xsinvisible"><i class="exclamation triangle icon"></i></div>
+            <div class="listItem"><span> `+dados[i].ncItem.item.nome+` </span></div>
+            <div class="listItem"><span> `+dados[i].ncItem.itemNC.prazo+` </span></div>
+            </div>
+            </div>
+            </a>
+            `;
         }
     }else {
         listItensReauditoria += `
@@ -70,7 +74,7 @@ function paginar(dados,usepaginacao) {
     <span class="ordenar paginacao PaginacaoNumeracao"></span>
     <a onclick="javascript:PaginacaoProximo(dadosListagem,paginacao);" class="ordenar paginacao PaginacaoProximo" title="Próxima Página"> <i class="icon caret right"></i> </a>
     <a class="ordenar" title="Atualizar Listagem" onclick="javascript:listagemItensParaReauditoria();"><i class="redo alternate icon"></i></a>
-    <a class="ordenar" title="Listar todos" onclick="javascript:paginar(dadosListagem,paginacao);"><i class="list icon"></i></a>
+    <a class="ordenar" title="Listar todos" onclick="javascript:listagemItensParaReauditoria();"><i class="list icon"></i></a>
     <div class="ordenar busca"><input onkeyup="javascript:PaginacaoBusca(this.value,dadosListagem,paginacao);" class="buscaInput buscarFiltro" placeholder="Buscar..." type="search"><i class="search icon"></i></div>
 </div>
 <? /*fim filtro*/ ?>
@@ -79,12 +83,8 @@ function paginar(dados,usepaginacao) {
 <div class="listagem hist controle">
     <div class="item">
         <div class="topo">
-            <div class="listItem">
-                <span> Item </span>
-            </div>
-            <div class="listItem">
-                <span> Tempo para Reauditoria </span>
-            </div>
+            <div class="listItem"><span> Item </span></div>
+            <div class="listItem xsinvisible"><span> Tempo para Reauditoria </span></div>
         </div>
     </div>
     <div id="listFichas"></div>
@@ -175,7 +175,7 @@ $(document).off("click",".reauditaritem").on("click",".reauditaritem", function 
                 `;
                 $("#modalreauditar").html(itens);
             },
-            error: function(){alert("Não foi possivel realizar a operação!");}
+            error: function(resp){console.log(resp.statusText);}
         });
     }
     if (idTipo == "temp") {
@@ -265,7 +265,7 @@ $(document).off("click",".reauditaritem").on("click",".reauditaritem", function 
                 `;
                 $("#modalreauditar").html(itens);
             },
-            error: function(){alert("Não foi possivel realizar a operação!");}
+            error: function(resp){console.log(resp.statusText);}
         });
     }
     abreModal('reauditarItem');
@@ -306,7 +306,7 @@ $(document).off("click", "#salvarReauditoria").on("click", "#salvarReauditoria",
                 }, 1500);
             });
         },
-        error: function(){alert("Não foi possivel realizar a operação!");}
+        error: function(resp){console.log(resp.statusText);}
     });
 });
 $(document).off("click", "#salvarReauditoriaTemp").on("click", "#salvarReauditoriaTemp", function(){
@@ -341,7 +341,7 @@ $(document).off("click", "#salvarReauditoriaTemp").on("click", "#salvarReauditor
                 }, 1500);
             });
         },
-        error: function(){alert("Não foi possivel realizar a operação!");}
+        error: function(resp){console.log(resp.statusText);}
     });
 });
 </script>

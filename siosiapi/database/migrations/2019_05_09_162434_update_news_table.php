@@ -63,6 +63,7 @@ class UpdateNewsTable extends Migration
             $table->foreign('id_acaocorretivaitens')->references('id')->on('acoes_corretivas');
             $table->foreign('id_funcionarios')->references('id')->on('funcionarios');
             $table->foreign('id_fichastemperaturas')->references('id')->on('fichas_temperaturas');
+            $table->foreign('id_interdicao')->references('id')->on('interdicoes');
         });
         Schema::table('nc_itens_temps', function (Blueprint $table){
             $table->foreign('id_itens_temperatura')->references('id')->on('itens_temperaturas');
@@ -75,6 +76,14 @@ class UpdateNewsTable extends Migration
             $table->foreign('id_estado')->references('id')->on('estados');
         });
         Schema::table('empresas', function (Blueprint $table){
+            $table->foreign('uf')->references('id')->on('estados');
+            $table->foreign('municipio')->references('id')->on('cidades');
+            $table->foreign('pais')->references('id')->on('paises');
+            $table->foreign('segmento')->references('id')->on('segmento');
+            $table->foreign('fiscalizacao')->references('id')->on('fiscalizacao');
+        });
+        Schema::table('previsao_abates', function (Blueprint $table){
+            $table->foreign('produtor')->references('id')->on('users');
             $table->foreign('uf')->references('id')->on('estados');
             $table->foreign('municipio')->references('id')->on('cidades');
         });

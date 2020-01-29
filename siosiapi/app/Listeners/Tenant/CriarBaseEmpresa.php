@@ -39,7 +39,5 @@ class CriarBaseEmpresa
 
         // run migration
         event(new CriandoDatabase($empresa));
-        // instalando passport
-        event(new InstalandoPassaport($empresa));
     }
 }

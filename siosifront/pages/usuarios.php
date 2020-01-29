@@ -5,16 +5,26 @@
 var dadosListagem = [];
 var paginacao = {tamanhoPagina:20,pagina:0};
 function listagemUsuarios() {
+    $("#listaUsuarios").html("<div class='loading-gif'><img src='img/loading.gif'></div>");
     $.ajax({
         type: 'GET',
         url: urlApi+'listar',
         headers: { 'Authorization': "Bearer " + localStorage.getItem('token') },
         dataType: 'json',
         success: function (data) {
-            dadosListagem = data.user;
+            dadosListagem = [];
+            if(data.user != undefined){
+                for(var i = 0; i < data.user.length; i++){
+                    if(data.user[i].usuario.email != 'admin'){
+                        dadosListagem.push(data.user[i]);
+                    };
+                };
+            }else{
+                dadosListagem = data;
+            };
             paginar(dadosListagem,paginacao);
         },
-        error: function(){alert("Não foi possivel realizar a operação!");}
+        error: function(resp){console.log(resp.statusText);}
     });
 }
 listagemUsuarios();
@@ -26,24 +36,12 @@ function paginar(dados,usepaginacao) {
             listUsuarios += `
             <div class="item">
             <div class="lista">
-            <div class="listItem x4">
-            <span>`+dados[i].usuario.nome+`</span>
-            </div>
-            <div class="listItem x4">
-            <span>`+dados[i].usuario.telefone+`</span>
-            </div>
-            <div class="listItem x4">
-            <span>`+dados[i].usuario.email+`</span>
-            </div>
-            <div class="listItem x4">
-            <span>Papeis</span>
-            </div>
-            <div class="buttonItem">
-            <a class="edita" id="edit" data-id="`+ dados[i].usuario.id + `" type="submit"><i class="icon edit"></i></a>
-            </div>
-            <div class="buttonItem">
-            <a class="del" id="delUser" data-id="`+ dados[i].usuario.id + `" type="submit"><i class="icon trash alternate"></i></a>
-            </div>
+            <div class="listItem x4"><span>`+dados[i].usuario.nome+`</span></div>
+            <div class="listItem x4 xsinvisible"><span>`+dados[i].usuario.telefone+`</span></div>
+            <div class="listItem x4 xsinvisible"><span>`+dados[i].usuario.email+`</span></div>
+            <div class="listItem x4 xsinvisible"><span>Papeis</span></div>
+            <div class="buttonItem"><a class="edita" id="edit" data-id="`+ dados[i].usuario.id + `" type="submit"><i class="icon edit"></i></a></div>
+            <div class="buttonItem"><a class="del" id="delUser" data-id="`+ dados[i].usuario.id + `" type="submit"><i class="icon trash alternate"></i></a></div>
             </div>
             </div>
             `;
@@ -75,7 +73,7 @@ function paginar(dados,usepaginacao) {
     <a onclick="javascript:PaginacaoAnterior(dadosListagem,paginacao);" class="ordenar paginacao PaginacaoAnterior" title="Página Anterior"> <i class="icon caret left"></i></a>
     <span class="ordenar paginacao PaginacaoNumeracao"></span>
     <a onclick="javascript:PaginacaoProximo(dadosListagem,paginacao);" class="ordenar paginacao PaginacaoProximo" title="Próxima Página"> <i class="icon caret right"></i> </a>
-    <a class="ordenar" title="Listar todos" onclick="javascript:paginar(dadosListagem,paginacao);"><i class="list icon"></i></a>
+    <a class="ordenar" title="Listar todos" onclick="javascript:listagemUsuarios();"><i class="list icon"></i></a>
     <div class="ordenar busca"><input onkeyup="javascript:PaginacaoBusca(this.value,dadosListagem,paginacao);" class="buscaInput buscarFiltro" placeholder="Buscar..." type="search"><i class="search icon"></i></div>
 </div>
 <? /*fim filtro*/ ?>
@@ -84,27 +82,19 @@ function paginar(dados,usepaginacao) {
 <div class="listagem">
     <div class="item">
         <div class="topo">
-            <div class="listItem x4">
-                <span>Nome</span>
-            </div>
-            <div class="listItem x4">
-                <span>Telefone</span>
-            </div>
-            <div class="listItem x4">
-                <span>Usuário</span>
-            </div>
-            <div class="listItem x4">
-                <span>Papéis</span>
-            </div>
-            <div class="buttonItem"></div>
-            <div class="buttonItem"></div>
+            <div class="listItem x4"><span>Nome</span></div>
+            <div class="listItem x4 xsinvisible"><span>Telefone</span></div>
+            <div class="listItem x4 xsinvisible"><span>Usuário</span></div>
+            <div class="listItem x4 xsinvisible"><span>Papéis</span></div>
+            <div class="buttonItem xsinvisible"></div>
+            <div class="buttonItem xsinvisible"></div>
         </div>
     </div>
     <div id="listaUsuarios"></div>
 </div>
 <? /*fim listagem usuário*/ ?>
 
-<? /*incio nova usuário*/ ?>
+<? /*incio novo usuário*/ ?>
 <div class="modal novoUsuario">
     <div class="content-modal">
         <div class="titulo-modal">
@@ -199,7 +189,7 @@ function paginar(dados,usepaginacao) {
                             $(".busca4").removeClass("off");
                         }else{
                             $(".busca4").each(function() {
-                                if (removeAcentos($(this).data('nome').toLowerCase()).indexOf(removeAcentos($("#buscarFiltro3").val().toLowerCase())) != -1) {
+                                if (removeAcentos(($(this).data('nome').toString()).toLowerCase()).indexOf(removeAcentos($("#buscarFiltro3").val().toLowerCase())) != -1) {
                                     $(this).removeClass("off");
                                 }else{
                                     $(this).addClass("off");
@@ -238,7 +228,7 @@ function paginar(dados,usepaginacao) {
                             $(".busca5").removeClass("off");
                         }else{
                             $(".busca5").each(function() {
-                                if (removeAcentos($(this).data('nome').toLowerCase()).indexOf(removeAcentos($("#buscarFiltro4").val().toLowerCase())) != -1) {
+                                if (removeAcentos(($(this).data('nome').toString()).toLowerCase()).indexOf(removeAcentos($("#buscarFiltro4").val().toLowerCase())) != -1) {
                                     $(this).removeClass("off");
                                 }else{
                                     $(this).addClass("off");
@@ -248,7 +238,26 @@ function paginar(dados,usepaginacao) {
                     });
                     </script>
                 </div>
-                <div class="col x3"></div>
+                <div class="col x3">
+                    <span class="titulo-checkbox">Arquivos</span>
+                    <div class="input-div">
+                        <span class="titulo-input"> Foto </span>
+                        <div class="input">
+                            <div class="icone">
+                                <input placeholder="selecione os arquivos" type="file" id="arquivos-logo" name="arquivos-logo[]" style="resize:none;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="input-div">
+                        <span class="titulo-input"> Documentos </span>
+                        <div class="input">
+                            <div class="icone">
+                                <input class="ajuda" placeholder="selecione os arquivos" type="file" id="arquivos-files" multiple="multiple" name="arquivos-files[]">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="botoes-rodape">
                 <div class="cancelar">
@@ -267,7 +276,20 @@ $(document).off("click","#novoUsuario").on("click","#novoUsuario", function () {
     if (validarPermissao('criar') != true) {
         abreModal('semPermisao');
         setTimeout(function () {$(".semPermisao").fadeOut();}, 1500);
-    }else{abreModal('novoUsuario');}
+    }else{
+        $('#cadastronovoUsuario').trigger('reset');
+        abreModal('novoUsuario');
+    };
+});
+var form = $('#cadastronovoUsuario')[0];var formdata = new FormData(form);var storedFiles = [];
+$(document).off('change', '#arquivos-logo').on('change', '#arquivos-logo', function (e) {
+    var filesArr = Array.prototype.slice.call(e.target.files);
+    filesArr.forEach(function (f) {storedFiles.push(f);});
+});
+var formfiles = $('#cadastronovoUsuario')[0];var formdatafiles = new FormData(formfiles);var storedFilesfiles = [];
+$(document).off('change', '#arquivos-files').on('change', '#arquivos-files', function (e) {
+    var filesArrfiles = Array.prototype.slice.call(e.target.files);
+    filesArrfiles.forEach(function (f) {storedFilesfiles.push(f);});
 });
 $(document).off("submit","#cadastronovoUsuario").on("submit","#cadastronovoUsuario", function (e) {
     e.preventDefault();
@@ -292,6 +314,50 @@ $(document).off("submit","#cadastronovoUsuario").on("submit","#cadastronovoUsuar
             "papels": papeis,
             "permissoes": permissoes
         };
+        if($("#arquivos-logo")[0].files[0] != undefined){
+            for (var i = 0; i < storedFiles.length; i++) {
+                var fileData = storedFiles[i];
+                formdata.append('arquivos-logo[]', fileData);
+            };
+            $auxnome = removeAcentos((((($("#nomecad").val()+'-'+$("#emailcad").val().toString()).toString()).toLowerCase()).replace(' ','')).replace('.',''));
+            formdata.append('nome', $auxnome);
+            formdata.append('tipo', 'usuario');
+            $.ajax({
+                type: 'POST',
+                url: 'upload/uploadlogo.php',
+                data: formdata,
+                processData: false,
+                contentType: false,
+                success: function (responseData, textStatus, jqXHR) {
+                    form = $('#cadastronovoUsuario')[0];
+                    formdata = new FormData(form);
+                    storedFiles = [];
+                    filesArr = '';
+                },
+            });
+        };
+        if($("#arquivos-files")[0].files[0] != undefined){
+            for (var i = 0; i < storedFilesfiles.length; i++) {
+                var fileDatafiles = storedFilesfiles[i];
+                formdatafiles.append('arquivos-files[]', fileDatafiles);
+            };
+            $auxnomefiles = removeAcentos((((($("#nomecad").val()+'-'+$("#emailcad").val().toString()).toString()).toLowerCase()).replace(' ','')).replace('.',''));
+            formdatafiles.append('nome', $auxnomefiles);
+            formdatafiles.append('tipo', 'usuario');
+            $.ajax({
+                type: 'POST',
+                url: 'upload/uploadfiles.php',
+                data: formdatafiles,
+                processData: false,
+                contentType: false,
+                success: function (responseData, textStatus, jqXHR) {
+                    formfiles = $('#cadastronovoUsuario')[0];
+                    formdatafiles = new FormData(formfiles);
+                    storedFilesfiles = [];
+                    filesArrfiles = '';
+                },
+            });
+        };
         $.ajax({
             type: 'POST',
             url: urlApi+'registrar',
@@ -302,25 +368,26 @@ $(document).off("submit","#cadastronovoUsuario").on("submit","#cadastronovoUsuar
                 listagemUsuarios();
                 abreModal('sucessoCadastroUser');
                 setTimeout(function () {
-                    $(".validaSenha").fadeOut();$(".usuarioExistente").fadeOut();$(":checkbox").prop('checked', false);$("#nomecad").val("");$("#telefonecad").val("");$("#emailcad").val("");$("#senhacad").val("");$("#confirmarSenha").val("");
+                    $("#cadastronovoUsuario").trigger('reset');
                     fechaModal('sucessoCadastroUser');
                 }, 1000);
             },
-            error: function (){$(".usuarioExistente").fadeOut(function(){$(".usuarioExistente").fadeIn();});},
+            error: function(resp){console.log(resp.statusText);$(".usuarioExistente").fadeOut(function(){$(".usuarioExistente").fadeIn();});}
         });
     }else{$(".validaSenha").fadeOut(function(){$(".validaSenha").fadeIn();});}
 });
 </script>
-<? /*fim nova usuário*/ ?>
+<? /*fim novo usuário*/ ?>
 
 <? /*inicio editar usuário*/ ?>
 <div class="modal editaUsuario">
     <div class="content-modal">
         <div class="titulo-modal">
             <span class="titulo"> Edição de Usuário </span>
-            <a class="close" onclick="fechaModal()"><i class="close icon"></i></a>
+            <a class="close" onclick="fechaModal();$('#editarUsuario').trigger('reset');"><i class="close icon"></i></a>
         </div>
-        <form class="form" id="editarUsuario">
+        <div id="editarUsuarioLoad" class='loading-gif'><img src='img/loading.gif'></div>
+        <form style="display:none" class="form" id="editarUsuario">
             <div class="conteudo">
                 <div class="col x3">
                     <div class="input-div">
@@ -428,7 +495,7 @@ $(document).off("submit","#cadastronovoUsuario").on("submit","#cadastronovoUsuar
                             $(".busca2").removeClass("off");
                         }else{
                             $(".busca2").each(function() {
-                                if (removeAcentos($(this).data('nome').toLowerCase()).indexOf(removeAcentos($("#buscarFiltro1").val().toLowerCase())) != -1) {
+                                if (removeAcentos(($(this).data('nome').toString()).toLowerCase()).indexOf(removeAcentos($("#buscarFiltro1").val().toLowerCase())) != -1) {
                                     $(this).removeClass("off");
                                 }else{
                                     $(this).addClass("off");
@@ -467,7 +534,7 @@ $(document).off("submit","#cadastronovoUsuario").on("submit","#cadastronovoUsuar
                             $(".busca3").removeClass("off");
                         }else{
                             $(".busca3").each(function() {
-                                if (removeAcentos($(this).data('nome').toLowerCase()).indexOf(removeAcentos($("#buscarFiltro2").val().toLowerCase())) != -1) {
+                                if (removeAcentos(($(this).data('nome').toString()).toLowerCase()).indexOf(removeAcentos($("#buscarFiltro2").val().toLowerCase())) != -1) {
                                     $(this).removeClass("off");
                                 }else{
                                     $(this).addClass("off");
@@ -477,11 +544,37 @@ $(document).off("submit","#cadastronovoUsuario").on("submit","#cadastronovoUsuar
                     });
                     </script>
                 </div>
-                <div class="col x3"></div>
+                <div class="col x3">
+                    <span class="titulo-checkbox">Arquivos</span>
+                    <div class="input-div">
+                        <span class="titulo-input"> Foto </span>
+                        <div class="input">
+                            <div class="icone">
+                                <input style="background-size:100%;background-position:center;background-repeat:no-repeat;" class="ajuda" placeholder="selecione os arquivos" type="file" id="arquivos-logoedit" name="arquivos-logoedit[]" style="resize:none;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-div">
+                        <span class="titulo-input"> Documentos </span>
+
+                        <div class="input">
+                            <div class="icone">
+                                <input placeholder="selecione os arquivos" type="file" id="arquivos-filesedit" multiple="multiple" name="arquivos-filesedit[]">
+                            </div>
+                        </div>
+
+                        <div class="input">
+                            <div class="icone" id="listdocempresa">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
             <div class="botoes-rodape">
                 <div class="cancelar">
-                    <a onclick="fechaModal()"> Cancelar </a>
+                    <a onclick="fechaModal();$('#editarUsuario').trigger('reset');"> Cancelar </a>
                 </div>
                 <div class="salvar">
                     <button type="submit"><i class="icon save"></i> Salvar </button>
@@ -491,18 +584,52 @@ $(document).off("submit","#cadastronovoUsuario").on("submit","#cadastronovoUsuar
     </div>
 </div>
 <script type="text/javascript">
+$(document).off('click', '#delete-file').on('click', '#delete-file', function (e) {
+    var filedeletename = $(this).data('file');
+    $.ajax({
+        type: 'POST',
+        url: 'upload/deletefile.php',
+        data: {'nomefile':filedeletename,'diretorio':removeAcentos((((((nome+'-'+email).toString()).toString()).toLowerCase()).replace(' ','')).replace('.','')),'tipo':'usuario'},
+        success: function (data) {
+            listFiles({'diretorio':removeAcentos((((((nome+'-'+email).toString()).toString()).toLowerCase()).replace(' ','')).replace('.','')),'tipo':'usuario'});
+        },
+        error: function(resp){console.log(resp.statusText);}
+    });
+});
+function listFiles(datafilelist){
+    $.ajax({
+        type: 'POST',
+        url: 'upload/listarArquivos.php',
+        data: datafilelist,
+        success: function (data2) {
+            $('#listdocempresa').html(data2);
+        },
+        error: function(resp){console.log(resp.statusText);}
+    });
+};
+var formedit = $('#editarUsuario')[0];var formdataedit = new FormData(formedit);var storedFilesedit = [];
+$(document).off('change', '#arquivos-logoedit').on('change', '#arquivos-logoedit', function (e) {
+    var filesArredit = Array.prototype.slice.call(e.target.files);
+    filesArredit.forEach(function (f) {storedFilesedit.push(f);});
+});
+var formfilesedit = $('#editarUsuario')[0];var formdatafilesedit = new FormData(formfilesedit);var storedFilesfilesedit = [];
+$(document).off('change', '#arquivos-filesedit').on('change', '#arquivos-filesedit', function (e) {
+    var filesArrfilesedit = Array.prototype.slice.call(e.target.files);
+    filesArrfilesedit.forEach(function (f) {storedFilesfilesedit.push(f);});
+});
 var id =0;
 var nome ='';
 var telefone ='';
 var email ='';
-$(document).off('click', "#edit").on('click', "#edit", function () {
+$(document).off('click', "#edit").on('click', "#edit", async function () {
     var pode = 0;
     id = $(this).data('id');
     if (validarPermissao('editar') != true) {
         abreModal('semPermisao');
         setTimeout(function () {$(".semPermisao").fadeOut();}, 1500);
     } else{
-        $.ajax({
+        abreModal('editaUsuario');
+        await $.ajax({
             type: 'GET',
             url: urlApi+'detalheUser/' + id,
             headers: { 'Authorization': "Bearer " + localStorage.getItem('token') },
@@ -515,10 +642,13 @@ $(document).off('click', "#edit").on('click', "#edit", function () {
                 var teste = '';
                 for (var i = 0; i < data.papels.length; i++) {$("[data-papel=" + data.papels[i].id + "]").prop('checked', 'true');}
                 for (var j = 0; j < data.permissoels.length; j++) {$("[data-permi=" + data.permissoels[j].id + "]").prop('checked', 'true');}
+                $("#arquivos-logoedit").css('background-image', 'url("./upload/usuario/'+removeAcentos((((((nome+'-'+email).toString()).toString()).toLowerCase()).replace(' ','')).replace('.',''))+'/logo.png")');
+                listFiles({'diretorio':removeAcentos((((((nome+'-'+email).toString()).toString()).toLowerCase()).replace(' ','')).replace('.','')),'tipo':'usuario'});
             },
-            error: function(){alert("Não foi possivel realizar a operação!");}
+            error: function(resp){console.log(resp.statusText);}
         });
-        abreModal('editaUsuario');
+        $('#editarUsuarioLoad').css('display', 'none');
+        $('#editarUsuario').css('display', 'block');
     }
 });
 $(document).off("submit","#editarUsuario").on("submit","#editarUsuario", function (e) {
@@ -544,6 +674,50 @@ $(document).off("submit","#editarUsuario").on("submit","#editarUsuario", functio
             "papels": papeis,
             "permissoes": permissoes
         };
+        if($("#arquivos-logoedit")[0].files[0] != undefined){
+            for (var i = 0; i < storedFilesedit.length; i++) {
+                var fileDataedit = storedFilesedit[i];
+                formdataedit.append('arquivos-logo[]', fileDataedit);
+            };
+            $auxnome = removeAcentos((((($("#nomecadEditar").val()+'-'+$("#emailcadEditar").val().toString()).toString()).toLowerCase()).replace(' ','')).replace('.',''));
+            formdataedit.append('nome', $auxnome);
+            formdataedit.append('tipo', 'usuario');
+            $.ajax({
+                type: 'POST',
+                url: './upload/uploadlogo.php',
+                data: formdataedit,
+                processData: false,
+                contentType: false,
+                success: function (responseData, textStatus, jqXHR) {
+                    formedit = $('#editarUsuario')[0];
+                    formdataedit = new FormData(formedit);
+                    storedFilesedit = [];
+                    filesArredit = '';
+                },
+            });
+        };
+        if($("#arquivos-filesedit")[0].files[0] != undefined){
+            for (var i = 0; i < storedFilesfilesedit.length; i++) {
+                var fileDatafilesedit = storedFilesfilesedit[i];
+                formdatafilesedit.append('arquivos-files[]', fileDatafilesedit);
+            };
+            $auxnomefilesedit = removeAcentos((((($("#nomecadEditar").val()+'-'+$("#emailcadEditar").val().toString()).toString()).toLowerCase()).replace(' ','')).replace('.',''));
+            formdatafilesedit.append('nome', $auxnomefilesedit);
+            formdatafilesedit.append('tipo', 'usuario');
+            $.ajax({
+                type: 'POST',
+                url: 'upload/uploadfiles.php',
+                data: formdatafilesedit,
+                processData: false,
+                contentType: false,
+                success: function (responseData, textStatus, jqXHR) {
+                    formfilesedit = $('#editarUsuario')[0];
+                    formdatafilesedit = new FormData(formfilesedit);
+                    storedFilesfilesedit = [];
+                    filesArrfilesedit = '';
+                },
+            });
+        };
         $.ajax({
             type: 'POST',
             url: urlApi+'atualizar/' + id,
@@ -563,8 +737,11 @@ $(document).off("submit","#editarUsuario").on("submit","#editarUsuario", functio
                     localStorage.setItem('permissoes', JSON.stringify(data2.permissoes));
                     localStorage.setItem('papeis', JSON.stringify(data2.papeis));
                 }
+                $("#editarUsuario").trigger('reset');
+                $('#editarUsuarioLoad').css('display', 'block');
+                $('#editarUsuario').css('display', 'none');
             },
-            error: function(){alert("Não foi possivel realizar a operação!");}
+            error: function(resp){console.log(resp.statusText);}
         });
 
     } else {$(".validaSenha").fadeOut(function(){$(".validaSenha").fadeIn();});}
@@ -614,7 +791,7 @@ $(document).off('submit',"#excluirUsuario").on('submit',"#excluirUsuario", funct
                 setTimeout(function () {$(".modal").fadeOut();}, 1500);
             });
         },
-        error: function(){alert("Não foi possivel realizar a operação!");}
+        error: function(resp){console.log(resp.statusText);}
     });
 });
 </script>
@@ -630,24 +807,36 @@ $.ajax({
     headers: { 'Authorization': "Bearer " + localStorage.getItem('token') },
     dataType: 'json',
     success: function (data) {
-        for (var i = 0; i < data.papeis.length; i++) {
+        if (data.papeis != undefined) {
+            for (var i = 0; i < data.papeis.length; i++) {
+                listarPapel1 += `
+                <div class="item itemBusca busca4" data-nome="`+ data.papeis[i].papel.nome + `">
+                <input type="checkbox" class="papel1 checkBox1" name="papeis" value="`+ data.papeis[i].papel.id + `" data-papel="` + data.papeis[i].papel.id + `">
+                <span>`+ data.papeis[i].papel.nome + `</span>
+                </div>
+                `;
+                listarPapel2 += `
+                <div class="item itemBusca busca2" data-nome="`+ data.papeis[i].papel.nome + `">
+                <input type="checkbox" class="papel2 checkBox2" name="papeis" value="`+ data.papeis[i].papel.id + `" data-papel="` + data.papeis[i].papel.id + `">
+                <span>`+ data.papeis[i].papel.nome + `</span>
+                </div>
+                `;
+            };
+            $(".listarPapel1").html(listarPapel1);
+            $(".listarPapel2").html(listarPapel2);
+        }else {
             listarPapel1 += `
-            <div class="item itemBusca busca4" data-nome="`+ data.papeis[i].nome + `">
-            <input type="checkbox" class="papel1 checkBox1" name="papeis" value="`+ data.papeis[i].id + `" data-papel="` + data.papeis[i].id + `">
-            <span>`+ data.papeis[i].nome + `</span>
+            <div class="item">
+            <input type="checkbox" class="papel2 checkBox2" name="papeis" disabled>
+            <span>Sem papeis cadastrados!</span>
             </div>
             `;
             $(".listarPapel1").html(listarPapel1);
-            listarPapel2 += `
-            <div class="item itemBusca busca2" data-nome="`+ data.papeis[i].nome + `">
-            <input type="checkbox" class="papel2 checkBox2" name="papeis" value="`+ data.papeis[i].id + `" data-papel="` + data.papeis[i].id + `">
-            <span>`+ data.papeis[i].nome + `</span>
-            </div>
-            `;
-            $(".listarPapel2").html(listarPapel2);
-        }
+            $(".listarPapel2").html(listarPapel1);
+        };
+
     },
-    error: function(){alert("Não foi possivel realizar a operação!");}
+    error: function(resp){console.log(resp.statusText);}
 });
 var listarPermissao1 = '';
 var listarPermissao2 = '';
@@ -664,17 +853,17 @@ $.ajax({
             <span>`+ data.permissoes[i].descricao + `</span>
             </div>
             `;
-            $(".listarPermissao1").html(listarPermissao1);
             listarPermissao2 += `
             <div class="item itemBusca busca3" data-nome="`+ data.permissoes[i].descricao + `">
             <input type="checkbox" class="permissao2 checkBox4" name="permissoes" value="`+ data.permissoes[i].id + `" data-permi="` + data.permissoes[i].id + `">
             <span>`+ data.permissoes[i].descricao + `</span>
             </div>
             `;
-            $(".listarPermissao2").html(listarPermissao2);
-        }
+        };
+        $(".listarPermissao1").html(listarPermissao1);
+        $(".listarPermissao2").html(listarPermissao2);
     },
-    error: function(){alert("Não foi possivel realizar a operação!");}
+    error: function(resp){console.log(resp.statusText);}
 });
 </script>
 <? /*fim listagem papel e permissoes*/ ?>
@@ -728,7 +917,7 @@ $.ajax({
                             $(".busca6").removeClass("off");
                         }else{
                             $(".busca6").each(function() {
-                                if (removeAcentos($(this).data('nome').toLowerCase()).indexOf(removeAcentos($("#buscarFiltro6").val().toLowerCase())) != -1) {
+                                if (removeAcentos(($(this).data('nome').toString()).toLowerCase()).indexOf(removeAcentos($("#buscarFiltro6").val().toLowerCase())) != -1) {
                                     $(this).removeClass("off");
                                 }else{
                                     $(this).addClass("off");
@@ -770,7 +959,7 @@ $.ajax({
             $(".listarSetores1").prepend(listarSetor1);
         }
     },
-    error: function(){alert("Não foi possivel realizar a operação!");}
+    error: function(resp){console.log(resp.statusText);}
 });
 $(document).off("click","#novoPapel").on("click","#novoPapel", function () {
     if (validarPermissao('criar') != true) {
@@ -790,8 +979,8 @@ $(document).off("submit","#cadastroPapel").on("submit","#cadastroPapel", functio
     for (var i = 0; i < setor.length; i++) {
         if (setor[i].checked) {
             valoresetor.push(setor[i].value);
-        }
-    }
+        };
+    };
     var data = {
         "nome": $("#nomePapel").val(),
         "setores": valoresetor
@@ -809,24 +998,25 @@ $(document).off("submit","#cadastroPapel").on("submit","#cadastroPapel", functio
                 headers: { 'Authorization': "Bearer " + localStorage.getItem('token') },
                 dataType: 'json',
                 success: function (data2) {
+
                     var listarPapel1 = "";
                     var listarPapel2 = "";
                     for (var i = 0; i < data2.papeis.length; i++) {
-                        if (data2.papeis[i].nome == $("#nomePapel").val()) {
+                        if (data2.papeis[i].papel.nome == $("#nomePapel").val()) {
                             listarPapel1 += `
-                            <div class="item itemBusca busca4" data-nome="`+ data2.papeis[i].nome + `">
-                            <input type="checkbox" class="papel1 checkBox1" name="papeis" value="`+ data2.papeis[i].id + `" data-papel="` + data2.papeis[i].id + `">
-                            <span>`+ data2.papeis[i].nome + `</span>
+                            <div class="item itemBusca busca4" data-nome="`+ data2.papeis[i].papel.nome + `">
+                            <input type="checkbox" class="papel1 checkBox1" name="papeis" value="`+ data2.papeis[i].papel.id + `" data-papel="` + data2.papeis[i].papel.id + `">
+                            <span>`+ data2.papeis[i].papel.nome + `</span>
                             </div>
                             `;
                             listarPapel2 += `
-                            <div class="item itemBusca busca2" data-nome="`+ data2.papeis[i].nome + `">
-                            <input type="checkbox" class="papel2 checkBox2" name="papeis" value="`+ data2.papeis[i].id + `" data-papel="` + data2.papeis[i].id + `">
-                            <span>`+ data2.papeis[i].nome + `</span>
+                            <div class="item itemBusca busca2" data-nome="`+ data2.papeis[i].papel.nome + `">
+                            <input type="checkbox" class="papel2 checkBox2" name="papeis" value="`+ data2.papeis[i].papel.id + `" data-papel="` + data2.papeis[i].papel.id + `">
+                            <span>`+ data2.papeis[i].papel.nome + `</span>
                             </div>
                             `;
-                        }
-                    }
+                        };
+                    };
                     if (data2.papeis.length == 1) {
                         $(".listarPapel1").html(listarPapel1);
                         $(".listarPapel2").html(listarPapel2);
@@ -835,7 +1025,7 @@ $(document).off("submit","#cadastroPapel").on("submit","#cadastroPapel", functio
                         $(".listarPapel2").prepend(listarPapel2);
                     }
                 },
-                error: function(){alert("Não foi possivel realizar a operação!");}
+                error: function(resp){console.log(resp.statusText);}
             });
             abreModal('papelCadastrado');
             setTimeout(function () {
@@ -845,7 +1035,7 @@ $(document).off("submit","#cadastroPapel").on("submit","#cadastroPapel", functio
                 fechaModal('novoPapel');
             }, 1000);
         },
-        error: function(){alert("Não foi possivel realizar a operação!");}
+        error: function(resp){console.log(resp.statusText);}
     });
 });
 </script>

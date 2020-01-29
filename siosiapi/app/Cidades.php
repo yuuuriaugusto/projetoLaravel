@@ -9,6 +9,6 @@ class Cidades extends Model
     protected $fillable = ['nome', 'id_estado'];
 
     public function Cidades(){
-        $this->BelongsToMany(Cidades::class, 'empresas');
+        $this->BelongsToMany(Cidades::class, 'empresas', 'previsao_abate');
     }
 }

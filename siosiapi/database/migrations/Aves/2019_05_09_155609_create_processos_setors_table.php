@@ -15,8 +15,8 @@ class CreateProcessosSetorsTable extends Migration
     {
         Schema::create('processos_setors', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('processos_id')->unsigned();
-            $table->integer('setors_id')->unsigned();
+            $table->integer('processos_id')->unsigned()->nullable();
+            $table->integer('setors_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

@@ -15,8 +15,8 @@ class CreateAcoesNaoconformidadesTable extends Migration
     {
         Schema::create('acoes_naoconformidades', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_acoescorretivas')->unsigned();
-            $table->integer('id_naoconformidade')->unsigned();
+            $table->integer('id_acoescorretivas')->unsigned()->nullable();
+            $table->integer('id_naoconformidade')->unsigned()->nullable();
             $table->timestamps();
 
             // $table->foreign('id_acoescorretivas')->references('id')->on('acoes_corretivas');

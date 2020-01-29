@@ -4,6 +4,7 @@
 			<?php
 			$urlhome = "<a onclick='mudaContent('home')'>Home <i class='right chevron icon divider'></i></a>";
 			$administrativo = "<a>Home <i class='right chevron icon divider'></i></a><a>Administrativo </a><i class='right chevron icon divider'></i>";
+			$produtor = "<a>Home <i class='right chevron icon divider'></i></a><a>Produtor </a><i class='right chevron icon divider'></i>";
 			?>
 			<div class="url-topbar home active"><a class="last" onclick="mudaContent('home')">Home</a></div>
 			<div class="url-topbar controle"><?= $urlhome?><a class="last">Controle</a></div>
@@ -19,6 +20,9 @@
 			<div class="url-topbar papeis"><?= $administrativo?><a class="last">Papeis</a></div>
 			<div class="url-topbar naoConformidades"><?= $administrativo?><a class="last">Não Conformidades</a></div>
 			<div class="url-topbar acaoCorretiva"><?= $administrativo?><a class="last">Ação Corretiva</a></div>
+			<div class="url-topbar produtorCadastroControle"><?= $produtor?><a class="last">Cadastro controle</a></div>
+			<div class="url-topbar produtorControle"><?= $produtor?><a class="last">Controle</a></div>
+			<div class="url-topbar produtorPrevisaoAbate"><?= $produtor?><a class="last">Previsão de abate</a></div>
 		</span>
 	</div>
 	<div class="button-sair">

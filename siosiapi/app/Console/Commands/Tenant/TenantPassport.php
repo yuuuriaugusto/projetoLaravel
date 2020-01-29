@@ -46,29 +46,48 @@ class TenantPassport extends Command
     public function handle()
     {
         // shell_exec('php artisan passport:install');
-        Artisan::call('passport:install');
-        // if ($id = $this->argument('id')){
-        //     $empresa = Empresas::find($id);
+        // Artisan::call('passport:install');
+        if ($id = $this->argument('id')){
+            $empresa = Empresas::find($id);
+            // $empresa = DB::table('empresas')->where('id', $id);
 
-        //     if ($empresa){
-        //         $this->exeCommand($empresa);
-        //     }
+            if ($empresa){
+                $this->exeCommand($empresa);
+            }
 
-        //     return;
-        // }
+            return;
+        }
 
-        // $empresas = Empresas::all();
+        $empresas = Empresas::all();
 
-        // foreach ($empresas as $empresa) {
-        //     $this->exeCommand($empresa);
-        // }
+        foreach ($empresas as $empresa) {
+            $this->exeCommand($empresa);
+        }
     }
-    // public function exeCommand(Empresas $empresa)
-    // {
+    public function exeCommand(Empresas $empresa)
+    {
 
-    //     $this->tenant->setConexao($empresa);
+        // $command = $this->option('refresh') ? 'migrate:refresh' : 'migrate';
 
-    //     Artisan::call('passport:install');
+        $this->tenant->setConexao($empresa);
+
+        $this->info("Conectando empresa {$empresa->fantasia}");
+
+        // Artisan::call('migrate', [
+        //     '--force' => true,
+        //     '--path'  => '/database/migrations/Aves',
+        // ]);
+
+        // Artisan::call('migrate', [
+        //     '--force' => true,
+        //     '--path'  => '/vendor/laravel/passport/database/migrations',
+        // ]);
+        // Artisan::call('db:seed');
+
+        Artisan::call('passport:install');
+       
+        $this->info("Fim da conexão com empresa {$empresa->fantasia}");
+        $this->info('-------------------------------------------------');
         
-    // }
+    }
 }

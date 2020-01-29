@@ -46,6 +46,7 @@ class AuditoriasTemperaturasController extends Controller{
                             'id_acaocorretivaitens' => $naoconformidade[$j]['id_acaocorretivaitens'],
                             'observacoes' => $naoconformidade[$j]['observacoes'],
                             'id_funcionarios' => $naoconformidade[$j]['id_funcionarios'],
+                            'id_interdicao' => $naoconformidade[$j]['id_interdicao'],
                             'prazo' => $naoconformidade[$j]['prazo'],
                             'statusC'=>0,
                             'statusNC'=>1
@@ -65,7 +66,7 @@ class AuditoriasTemperaturasController extends Controller{
         $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));
         $data_atual = date('Y-m-d H:i:s');
         if($data_atual <=  $data_ultimoacesso){
-            $processos =DB::table('processos')->where('ativo',1)->get();
+            $processos =DB::table('processos')->where('ativo',1)->orderBy('nome', 'ASC')->get();
             $result = [];
             //pego todos os setores de cada processo
             for($i=0; $i<count($processos); $i++){
@@ -153,19 +154,18 @@ class AuditoriasTemperaturasController extends Controller{
         $data_atual = date('Y-m-d H:i:s');
         if($data_atual <=  $data_ultimoacesso){
             $fichasItens = [];
-            $fichasDb= DB::table('fichas_temperaturas')->where('id_auditorias', $id)->get();
+            $fichasDb= DB::table('fichas_temperaturas')->where('id_auditorias', $id)->orderBy('updated_at', 'desc')->get();
             for($j = 0; $j<count($fichasDb); $j++){
-                if ($fichasDb[$j]->reaudita != '0') {
+                // if ($fichasDb[$j]->reaudita != '0') {
                     $fichaAtual = [];
                     $itensFicha = [];
                     $fichaAtual["ficha"] = $fichasDb[$j];
                     $itensFichaDB = DB::table('itens_temperaturas')->where( 'id', $fichasDb[$j]->id_itens)->get();
                     $itensFicha["itens"] = $itensFichaDB;
                     $fichasItens[] = array_merge($fichaAtual,$itensFicha);
-                }
+                // }
             }
             return response()->json(compact('fichasItens'), 200);
-
         }
         else{
             return response()->json('Token Inválido!');

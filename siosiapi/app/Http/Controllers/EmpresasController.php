@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+session_start();
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Empresas;
 use Illuminate\Http\Request;
 use App\Events\Tenant\CriandoEmpresa;
+use App\Events\Tenant\CriandoPassport;
 
 class EmpresasController extends Controller{
 
@@ -18,7 +21,13 @@ class EmpresasController extends Controller{
             $empresa = Empresas::create($request->all());
             $empresa->ativo = 1;
             $empresa->save();
-            event(new CriandoEmpresa($empresa));
+            $segmento = $request->input('segmento');
+            $_SESSION["segmento"] = $segmento;
+            $fiscalizacao = $request->input('fiscalizacao');
+            $_SESSION["fiscalizacao"] = $fiscalizacao;
+            if($empresa->ativo == 1){
+                event(new CriandoEmpresa($empresa));
+            };
             return response()->json(['Sucesso' => 'Empresa cadastrada com sucesso'], 201);
         }else{
             return response()->json('Token Inválido!');
@@ -89,6 +98,17 @@ class EmpresasController extends Controller{
         if($data_atual <=  $data_ultimoacesso){
             $estados = DB::table('estados')->get();
             return response()->json(compact('estados'), 200);
+        }else{
+            return response()->json('Token Inválido!');
+        }
+    }
+    public function listSegmentos(){
+        $user = Auth::user();
+        $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));
+        $data_atual = date('Y-m-d H:i:s');
+        if($data_atual <=  $data_ultimoacesso){
+            $segmentos = DB::table('segmento')->get();
+            return response()->json(compact('segmentos'), 200);
         }else{
             return response()->json('Token Inválido!');
         }

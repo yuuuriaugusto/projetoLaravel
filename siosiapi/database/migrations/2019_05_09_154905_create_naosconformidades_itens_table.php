@@ -18,12 +18,13 @@ class CreateNaosconformidadesItensTable extends Migration
             $table->string('observacoes')->nullable();
             $table->integer('statusC')->nullable();
             $table->integer('statusNC')->nullable();
-            $table->timestamp('prazo')->nullable();
+            $table->string('prazo', 10)->nullable();
             $table->integer('id_naoconformidades')->unsigned()->nullable();
             $table->integer('id_fichas')->unsigned()->nullable();
             $table->integer('id_funcionarios')->unsigned()->nullable();
             $table->integer('id_acaocorretivaitens')->unsigned()->nullable();
             $table->integer('id_fichastemperaturas')->unsigned()->nullable();
+            $table->integer('id_interdicao')->unsigned()->nullable();
             $table->timestamps();
         });
     }

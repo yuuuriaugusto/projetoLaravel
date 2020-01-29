@@ -70,27 +70,29 @@ class UserController extends Controller
             $user->ultimoacesso=date('Y-m-d H:i:s');
             $user->save();
             $idUser = User::find($user->id);
-            $papeis = DB::table('papels_users')->where('id_users', $user->id)->get();
-            $papel = [];
-            $setores = [];
-            for($i=0; $i<count($papeis); $i++){
-                $setor = DB::table('autorizacaos')->where('id_papels', $papeis[$i]->id_papels)->get();
-                $papel[] = DB::table('papels')->where('id', $papeis[$i]->id_papels)->get();
-
-                for($j=0; $j<count($setor); $j++){
-                    $set = Setors::find($setor[$j]->id_setors);
-                    $setores[] = $set;
+            if($idUser->ativo == 1){
+                $papeis = DB::table('papels_users')->where('id_users', $user->id)->get();
+                $papel = [];
+                $setores = [];
+                for($i=0; $i<count($papeis); $i++){
+                    $setor = DB::table('autorizacaos')->where('id_papels', $papeis[$i]->id_papels)->get();
+                    $papel[] = DB::table('papels')->where('id', $papeis[$i]->id_papels)->get();
+    
+                    for($j=0; $j<count($setor); $j++){
+                        $set = Setors::find($setor[$j]->id_setors);
+                        $setores[] = $set;
+                    }
                 }
-            }
-
-            $permissao = DB::table('permissoes_users')->where('id_users', $user->id)->get();
-            $permissoes = [];
-            for($i=0; $i<count($permissao); $i++){
-                $per = Permissoes::find($permissao[$i]->id_permissoes);
-                $permissoes[] = $per;
-            }
-
-            return response()->json(['token' => $token, 'id_user' => $idUser,'user' => $user, 'setores' => $setores, 'permissoes' => $permissoes, 'papeis' => $papel], 200);
+                $permissao = DB::table('permissoes_users')->where('id_users', $user->id)->get();
+                $permissoes = [];
+                for($i=0; $i<count($permissao); $i++){
+                    $per = Permissoes::find($permissao[$i]->id_permissoes);
+                    $permissoes[] = $per;
+                }
+                return response()->json(['token' => $token, 'id_user' => $idUser,'user' => $user, 'setores' => $setores, 'permissoes' => $permissoes, 'papeis' => $papel], 200);
+            }else{
+                return response()->json(['error' => 'Unauthorised'], 401);
+            };
         }else{
             return response()->json(['error' => 'Unauthorised'], 401);
         }
@@ -287,7 +289,7 @@ class UserController extends Controller
                         for ($k=0; $k < count($itensDB); $k++) {
                             $itemAtual = [];
                             $itemAtual['item'] = $itensDB[$k];
-                            $processosetor = ProcessosSetor::where('id',$itensDB[$k]->processos_setor_id)->get();
+                            $processosetor = ProcessosSetor::where('id',$itensDB[$k]->processo_setor_id)->get();
                             for ($l=0; $l < count($processosetor); $l++) {
                                 $processo['processo'] = Processos::where('id',$processosetor[$l]->processos_id)->get();
                             }

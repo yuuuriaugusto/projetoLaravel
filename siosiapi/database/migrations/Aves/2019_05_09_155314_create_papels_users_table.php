@@ -15,8 +15,8 @@ class CreatePapelsUsersTable extends Migration
     {
         Schema::create('papels_users', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_users')->unsigned();
-            $table->integer('id_papels')->unsigned();
+            $table->integer('id_users')->unsigned()->nullable();
+            $table->integer('id_papels')->unsigned()->nullable();
             $table->timestamps();
         });
     }

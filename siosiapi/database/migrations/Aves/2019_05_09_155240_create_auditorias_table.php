@@ -15,9 +15,9 @@ class CreateAuditoriasTable extends Migration
     {
         Schema::create('auditorias', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_processos')->unsigned();
-            $table->integer('id_users')->unsigned();
-            $table->integer('id_setors')->unsigned();
+            $table->integer('id_processos')->unsigned()->nullable();
+            $table->integer('id_users')->unsigned()->nullable();
+            $table->integer('id_setors')->unsigned()->nullable();
             $table->timestamps();
         });
     }

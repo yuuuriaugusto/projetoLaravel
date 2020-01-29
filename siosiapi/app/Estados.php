@@ -9,6 +9,6 @@ class Estados extends Model
     protected $fillable = ['nome', 'uf', 'id_pais'];
 
     public function Estados(){
-        return $this->BelongsToMany(Estados::class, 'cidades', 'empresas');
+        return $this->BelongsToMany(Estados::class, 'cidades', 'empresas', 'previsao_abate');
     }
 }

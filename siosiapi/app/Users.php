@@ -29,6 +29,6 @@ class Users extends Authenticatable
     ];
 
     public function Users(){
-        return $this->belongsToMany(Users::class, 'papels_users', 'permissoes_users', 'auditorias');
+        return $this->belongsToMany(Users::class, 'papels_users', 'permissoes_users', 'auditorias', 'previsao_abate');
     }
 }

@@ -1,0 +1,13 @@
+Basicamente as conexões se alternam através da url, tem um banco central com todas as urls e 
+através desse banco é feita as conexões nas devidas bases de acordo com a url da empresa
+
+app\http\midldleware\Tenant\tenantMiddleware
+esse arquivo é o que pega a url para ser usado nos demais arquivos e valida se a se existe a mesma
+
+app\Tenant\ManagerTenant.php
+Esse arquivo pega as infos e faz a alternação entre as base de dados atraves da url
+
+app\http\midldleware\Tenant\checkdominiomain
+Esse arquivo faz uma verificação da url principal para criação de uma outra empresa, ou seja, somente
+a url especifica ou lista de urls podem cadatrar outras empresas
+

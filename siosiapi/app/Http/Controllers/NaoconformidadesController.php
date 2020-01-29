@@ -55,11 +55,10 @@ class NaoconformidadesController extends Controller
 		if($data_atual <=  $data_ultimoacesso){
             $naoconformidadesDB = DB::table('naos_conformidades')->where('ativo', 1)->orderBy('created_at', 'DESC')->get();
             for ($i=0; $i < count($naoconformidadesDB); $i++) {
-                $naoconformidadeAtual = [];
                 $naoconformidadeAtual["naoconformidade"] = $naoconformidadesDB[$i];
                 $naoconformidades[] = $naoconformidadeAtual;
             }
-            return compact('naoconformidades');
+            return response()->json(compact('naoconformidades'), 200);
 		}else{
 			return response()->json('Token Inválido!');
 		}
@@ -111,15 +110,20 @@ class NaoconformidadesController extends Controller
             if(count($ncitem)>0){
                 for($i=0; $i<count($ncitem); $i++){
                     $naoconformidades[] = DB::table('naos_conformidades')->where('ativo', 1)->where('id', $ncitem[$i]->id_ncitens)->get();
-                    for($j = 0; $j<count($naoconformidades); $j++){
-                        $acao[] = DB::table('acoes_naoconformidades')->where('id_naoconformidade',$naoconformidades[$j][0]->id)->get();
-                    }
-                    for($k = 0; $k<count($acao); $k++){
-                        $acoescorretivas = [];
-                        for($l = 0; $l<count($acao[$k]); $l++){
-                            $acoescorretivas[] = DB::table('acoes_corretivas')->where('id',$acao[$k][$l]->id_acoescorretivas)->get();
-                        }
-                    }
+					if(count($naoconformidades) > 0){
+						for($j = 0; $j<count($naoconformidades); $j++){
+							$acao[] = DB::table('acoes_naoconformidades')->where('id_naoconformidade',$naoconformidades[$j][0]->id)->get();
+						};
+						if(count($acao) > 0){
+							for($k = 0; $k<count($acao); $k++){
+								$acoescorretivas = [];
+								for($l = 0; $l<count($acao[$k]); $l++){
+									$acoescorretivas[] = DB::table('acoes_corretivas')->where('id',$acao[$k][$l]->id_acoescorretivas)->get();
+								};
+							};
+						};
+					};
+
                     $nconfatual = $naoconformidades[$i];
                     $resultado[] = array_merge(compact('nconfatual'), compact('acoescorretivas'));
                     $acao = [];

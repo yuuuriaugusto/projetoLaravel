@@ -16,7 +16,7 @@ class CreateNaosConformidadesTable extends Migration
         Schema::create('naos_conformidades', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nome')->nullable();
-            $table->string('descricao', 255)->nullable();
+            $table->string('descricao')->nullable();
             $table->integer('ativo')->nullable();
             $table->timestamps();
         });

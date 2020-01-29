@@ -5,6 +5,7 @@
     <title> SIOSI </title>
     <link rel="shortcut icon" type="image/x-icon" href="img/icone.png"></link>
     <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
     <script type="text/javascript" src="js\jquery.maskedinput.js"></script>
     <link rel="stylesheet" href="css/style.min.css">

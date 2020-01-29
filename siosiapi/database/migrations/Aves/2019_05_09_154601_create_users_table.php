@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->integer('permissao')->nullable();
             $table->timestamp('ultimoacesso')->nullable();
-            $table->integer('ativo');
+            $table->integer('ativo')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

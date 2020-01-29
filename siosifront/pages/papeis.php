@@ -5,16 +5,21 @@
 var dadosListagem = [];
 var paginacao = {tamanhoPagina:20,pagina:0};
 function listagemPapeis() {
+    $("#listaPapeis").html("<div class='loading-gif'><img src='img/loading.gif'></div>");
     $.ajax({
         type: 'GET',
         url: urlApi+'listagemPapel',
         headers: { 'Authorization': "Bearer " + localStorage.getItem('token') },
         dataType: 'json',
         success: function (data) {
-            dadosListagem = data.papeis;
+            if(data.papeis != undefined){
+                dadosListagem = data.papeis;
+            }else {
+                dadosListagem = data;
+            };
             paginar(dadosListagem,paginacao);
         },
-        error: function(){alert("Não foi possivel realizar a operação!");}
+        error: function(resp){console.log(resp.statusText);}
     });
 }
 listagemPapeis();
@@ -26,15 +31,9 @@ function paginar(dados,usepaginacao) {
             listPapeis += `
             <div class="item">
             <div class="lista">
-            <div class="listItem">
-            <span>`+ dados[i].papel.nome + `</span>
-            </div>
-            <div class="buttonItem">
-            <a class="edita" id="edit" data-id="`+ dados[i].papel.id + `" type="submit"><i class="icon edit"></i></a>
-            </div>
-            <div class="buttonItem">
-            <a class="del" id="delPapeis" data-id="`+ dados[i].papel.id + `" type="submit"><i class="icon trash alternate"></i></a>
-            </div>
+            <div class="listItem"><span>`+ dados[i].papel.nome + `</span></div>
+            <div class="buttonItem"><a class="edita" id="edit" data-id="`+ dados[i].papel.id + `" type="submit"><i class="icon edit"></i></a></div>
+            <div class="buttonItem"><a class="del" id="delPapeis" data-id="`+ dados[i].papel.id + `" type="submit"><i class="icon trash alternate"></i></a></div>
             </div>
             </div>
             `;
@@ -66,7 +65,7 @@ function paginar(dados,usepaginacao) {
     <a onclick="javascript:PaginacaoAnterior(dadosListagem,paginacao);" class="ordenar paginacao PaginacaoAnterior" title="Página Anterior"> <i class="icon caret left"></i></a>
     <span class="ordenar paginacao PaginacaoNumeracao"></span>
     <a onclick="javascript:PaginacaoProximo(dadosListagem,paginacao);" class="ordenar paginacao PaginacaoProximo" title="Próxima Página"> <i class="icon caret right"></i> </a>
-    <a class="ordenar" title="Listar todos" onclick="javascript:paginar(dadosListagem,paginacao);"><i class="list icon"></i></a>
+    <a class="ordenar" title="Listar todos" onclick="javascript:listagemPapeis();"><i class="list icon"></i></a>
     <div class="ordenar busca"><input onkeyup="javascript:PaginacaoBusca(this.value,dadosListagem,paginacao);" class="buscaInput buscarFiltro" placeholder="Buscar..." type="search"><i class="search icon"></i></div>
 </div>
 <? /*fim filtro*/ ?>
@@ -75,15 +74,9 @@ function paginar(dados,usepaginacao) {
 <div class="listagem">
     <div class="item">
         <div class="topo">
-            <div class="listItem">
-                <span>Papel</span>
-            </div>
-            <div class="buttonItem">
-                <span>Editar</span>
-            </div>
-            <div class="buttonItem">
-                <span>Excluir</span>
-            </div>
+            <div class="listItem"><span>Papel</span></div>
+            <div class="buttonItem xsinvisible"><span>Editar</span></div>
+            <div class="buttonItem xsinvisible"><span>Excluir</span></div>
         </div>
     </div>
     <div id="listaPapeis"></div>
@@ -139,7 +132,7 @@ function paginar(dados,usepaginacao) {
                             $(".busca3").removeClass("off");
                         }else{
                             $(".busca3").each(function() {
-                                if (removeAcentos($(this).data('nome').toLowerCase()).indexOf(removeAcentos($("#buscarFiltro1").val().toLowerCase())) != -1) {
+                                if (removeAcentos(($(this).data('nome').toString()).toLowerCase()).indexOf(removeAcentos($("#buscarFiltro1").val().toLowerCase())) != -1) {
                                     $(this).removeClass("off");
                                 }else{
                                     $(this).addClass("off");
@@ -198,7 +191,7 @@ $(document).off("submit","#cadastroPapel").on("submit","#cadastroPapel", functio
                 fechaModal('papelCadastrado');
             }, 1000);
         },
-        error: function(){alert("Não foi possivel realizar a operação!");}
+        error: function(resp){console.log(resp.statusText);}
     });
 });
 </script>
@@ -253,7 +246,7 @@ $(document).off("submit","#cadastroPapel").on("submit","#cadastroPapel", functio
                             $(".busca2").removeClass("off");
                         }else{
                             $(".busca2").each(function() {
-                                if (removeAcentos($(this).data('nome').toLowerCase()).indexOf(removeAcentos($("#buscarFiltro2").val().toLowerCase())) != -1) {
+                                if (removeAcentos(($(this).data('nome').toString()).toLowerCase()).indexOf(removeAcentos($("#buscarFiltro2").val().toLowerCase())) != -1) {
                                     $(this).removeClass("off");
                                 }else{
                                     $(this).addClass("off");
@@ -303,7 +296,7 @@ $(document).off('click', "#edit").on('click', "#edit", function () {
                 }
                 abreModal('editaPapel');
             },
-            error: function(){alert("Não foi possivel realizar a operação!");}
+            error: function(resp){console.log(resp.statusText);}
         });
     }
 });
@@ -335,7 +328,7 @@ $(document).off('submit',"#editaPapel").on('submit',"#editaPapel", function (e) 
                 }, 1500);
             });
         },
-        error: function(){alert("Não foi possivel realizar a operação!");}
+        error: function(resp){console.log(resp.statusText);}
     });
 });
 </script>
@@ -388,7 +381,7 @@ $(document).off('submit',"#excluirPapel").on('submit',"#excluirPapel", function 
                 }, 1500);
             });
         },
-        error: function(){alert("Não foi possivel realizar a operação!");}
+        error: function(resp){console.log(resp.statusText);}
     });
 });
 </script>
@@ -405,25 +398,36 @@ $.ajax({
     headers: { 'Authorization': "Bearer " + localStorage.getItem('token') },
     dataType: 'json',
     success: function (data) {
-        for (var i = 0; i < data.setores.length; i++) {
-            setoresAt = data.setores;
-            listarSetor1 += `
-            <div class="item itemBusca busca3" data-nome="`+ data.setores[i].nome + `">
-            <input type="checkbox" class="checkBox1" name="setores1" value="`+ data.setores[i].id + `" data-setor="` + data.setores[i].id + `">
-            <span>`+ data.setores[i].nome + `</span>
-            </div>
-            `;
-            $(".listarSetores1").html(listarSetor1);
-            listarSetor2 += `
-            <div class="item itemBusca busca2" data-nome="`+ data.setores[i].nome + `">
-            <input type="checkbox" class="checkBox2" name="setores2" value="`+ data.setores[i].id + `" data-setor="` + data.setores[i].id + `">
-            <span>`+ data.setores[i].nome + `</span>
-            </div>
-            `;
-            $(".listarSetores2").html(listarSetor2);
-        }
+        if(data.setores != undefined){
+            for (var i = 0; i < data.setores.length; i++) {
+                setoresAt = data.setores;
+                listarSetor1 += `
+                <div class="item itemBusca busca3" data-nome="`+ data.setores[i].nome + `">
+                <input type="checkbox" class="checkBox1" name="setores1" value="`+ data.setores[i].id + `" data-setor="` + data.setores[i].id + `">
+                <span>`+ data.setores[i].nome + `</span>
+                </div>
+                `;
+                $(".listarSetores1").html(listarSetor1);
+                listarSetor2 += `
+                <div class="item itemBusca busca2" data-nome="`+ data.setores[i].nome + `">
+                <input type="checkbox" class="checkBox2" name="setores2" value="`+ data.setores[i].id + `" data-setor="` + data.setores[i].id + `">
+                <span>`+ data.setores[i].nome + `</span>
+                </div>
+                `;
+                $(".listarSetores2").html(listarSetor2);
+            };
+        }else{
+            listarSetor1 = `
+                <div class="item">
+                <input type="checkbox">
+                <span>Sem setores cadastrados!</span>
+                </div>
+                `;
+                $(".listarSetores1").html(listarSetor1);
+                $(".listarSetores2").html(listarSetor1);
+        };
     },
-    error: function(){alert("Não foi possivel realizar a operação!");}
+    error: function(resp){console.log(resp.statusText);}
 });
 </script>
 <? /*fim listagem setores*/ ?>

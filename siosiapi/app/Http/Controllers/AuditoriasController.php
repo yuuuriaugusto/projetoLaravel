@@ -36,7 +36,7 @@ class AuditoriasController extends Controller
                     'id_auditorias' => $auditoria->id,
                     'id_itens' => $itens[$i]['id'],
                     'conforme' => $itens[$i]['con']
-                ];
+		        ];
                 $autori = Fichas::create($dados);
                 if($autori->conforme == 0){
                     $naoconformidade = $itens[$i]['naoconformidades'];
@@ -47,9 +47,11 @@ class AuditoriasController extends Controller
                             'id_acaocorretivaitens' => $naoconformidade[$j]['id_acaocorretivaitens'],
                             'observacoes' => $naoconformidade[$j]['observacoes'],
                             'id_funcionarios' => $naoconformidade[$j]['id_funcionarios'],
+                            'id_interdicao' => $naoconformidade[$j]['id_interdicao'],
                             'prazo' => $naoconformidade[$j]['prazo'],
                             'statusC'=>0,
-                            'statusNC'=>1
+                            'statusNC'=>1,
+                            'produtor'=> $naoconformidade[$j]['produtor'],
                         ];
                         $nconformeitens = NaosconformidadesItens::create($dadoss);
                     }
@@ -74,7 +76,7 @@ class AuditoriasController extends Controller
             $fichasConf = [];
             $auditoriasDB = Auditorias::orderBy('created_at','desc')->get();
             if (count($auditoriasDB)>0) {
-                for ($i=0; $i < count($auditoriasDB); $i++) {
+		        for ($i=0; $i < count($auditoriasDB); $i++) {
                     $auditoriaAtual = [];
                     $auditoriaAtual['auditoria'] = $auditoriasDB[$i];
                     $fichasConfDB = [];
@@ -93,7 +95,7 @@ class AuditoriasController extends Controller
                             for ($l=0; $l < count($processosetor); $l++) {
                                 $processo['processo'] = Processos::where('id',$processosetor[$l]->processos_id)->get();
                             }
-                            for ($l=0; $l < count($processosetor); $l++) {
+			            for ($l=0; $l < count($processosetor); $l++) {
                                 $setor['setor'] = Setors::where('id',$processosetor[$l]->setors_id)->get();
                             }
                             $processosetores['processosetores'] = array_merge($processo,$setor);
@@ -112,14 +114,14 @@ class AuditoriasController extends Controller
                         $fichasTempAtual = [];
                         $fichasTempAtual['ficha'] = $fichasTempDB[$j];
                         $itensDB = ItensTemperaturas::where('id',$fichasTempDB[$j]->id_itens)->get();
-                        for ($k=0; $k < count($itensDB); $k++) {
+			            for ($k=0; $k < count($itensDB); $k++) {
                             $itemAtual = [];
                             $itemAtual['item'] = $itensDB[$k];
-                            $processosetor = ProcessosSetor::where('id',$itensDB[$k]->processos_setor_id)->get();
+                            $processosetor = ProcessosSetor::where('id',$itensDB[$k]->processo_setor_id)->get();
+                            $processo = [];
+                            $setor = [];
                             for ($l=0; $l < count($processosetor); $l++) {
                                 $processo['processo'] = Processos::where('id',$processosetor[$l]->processos_id)->get();
-                            }
-                            for ($l=0; $l < count($processosetor); $l++) {
                                 $setor['setor'] = Setors::where('id',$processosetor[$l]->setors_id)->get();
                             }
                             $processosetores['processosetores'] = array_merge($processo,$setor);
@@ -137,49 +139,6 @@ class AuditoriasController extends Controller
             }
             $resultado['auditorias'] = $auditorias;
             return($resultado);
-
-
-            // $setor2 = [];
-            // $auditoria = [];
-            // $listagemhistorico = [];
-            // $processos = DB::table('processos')->where('ativo',1)->get();
-            // for($i=0; $i<count($processos); $i++){
-            //     $processo["processo"] = $processos[$i];
-            //     $processosetor = DB::table('processos_setors')->where('processos_id',$processos[$i]->id)->get();
-            //     $setor2 = [];
-            //     for ($j=0; $j < count($processosetor); $j++) {
-            //         $setor = [];
-            //         $setor[] = DB::table('setors')->where('id',$processosetor[$j]->setors_id)->get();
-            //         for ($k=0; $k < count($setor[0]); $k++) {
-            //             $todasauditorias2 = [];
-            //             $fichas = [];
-            //             $setoratual = [];
-            //             $auditoria = DB::table('auditorias')->where('id_setors', $setor[0][$k]->id)->orderBy('created_at', 'DESC')->get();
-            //             for ($l=0; $l < count($auditoria); $l++) {
-            //                 $auditoria2 = [];
-            //                 $todasauditorias = [];
-            //                 $todasauditorias[] = $auditoria[$l];
-            //                 $fichasConformidade = DB::table('fichas')->where('id_auditorias', $auditoria[$l]->id)->get();
-            //                 $fichasTemperatura = DB::table('fichas_temperaturas')->where('id_auditorias', $auditoria[$l]->id)->get();
-            //                 $fichas["conformidade"] = $fichasConformidade;
-            //                 $fichas["temperatura"] = $fichasTemperatura;
-            //                 if(count($fichas) > 0){
-            //                     $auditoria2[] = array_merge($todasauditorias, compact('fichas'));
-            //                 }
-            //                 else{
-            //                     $auditoria2[] = array_merge($todasauditorias, []);
-            //                 }
-            //                 $todasauditorias2[] = $auditoria2;
-            //             }
-            //             $auditorias["auditorias"] = $todasauditorias2;
-            //             $setoratual[] = $setor[0][$k];
-            //             $setor2[] = array_merge($setoratual, $auditorias);
-            //         }
-            //     }
-            //     $setors["setor"] = $setor2;
-            //     $listagemhistorico[] = array_merge($processo, $setors);
-            // }
-            // return response()->json(compact('listagemhistorico'), 200);
         }
         else{
             return response()->json('Token Inválido!');
@@ -309,18 +268,15 @@ class AuditoriasController extends Controller
         $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));
         $data_atual = date('Y-m-d H:i:s');
         if($data_atual <=  $data_ultimoacesso){
-
             $fichasItens = [];
-            $fichasDb= DB::table('fichas')->where('id_auditorias', $id)->get();
+            $fichasDb= DB::table('fichas')->where('id_auditorias', $id)->orderBy('updated_at', 'desc')->get();
             for($j = 0; $j<count($fichasDb); $j++){
-                if ($fichasDb[$j]->reaudita != '0') {
-                    $fichaAtual = [];
-                    $itensFicha = [];
-                    $fichaAtual["ficha"] = $fichasDb[$j];
-                    $itensFichaDB = DB::table('itens')->where('id', $fichasDb[$j]->id_itens)->get();
-                    $itensFicha["itens"] = $itensFichaDB;
-                    $fichasItens[] = array_merge($fichaAtual,$itensFicha);
-                }
+                $fichaAtual = [];
+                $itensFicha = [];
+                $fichaAtual["ficha"] = $fichasDb[$j];
+                $itensFichaDB = DB::table('itens')->where('id', $fichasDb[$j]->id_itens)->get();
+                $itensFicha["itens"] = $itensFichaDB;
+                $fichasItens[] = array_merge($fichaAtual,$itensFicha);
             }
             return response()->json(compact('fichasItens'), 200);
         }
@@ -333,7 +289,7 @@ class AuditoriasController extends Controller
         $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));
         $data_atual = date('Y-m-d H:i:s');
         if($data_atual <=  $data_ultimoacesso){
-            $nomeprocesso =	Processos::where('nome', $busca)->get();
+            $nomeprocesso = Processos::where('nome', $busca)->get();
             $result = [];
             for($i=0; $i<count($nomeprocesso); $i++){
                 $processo = [];
@@ -376,9 +332,62 @@ class AuditoriasController extends Controller
         $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));
         $data_atual = date('Y-m-d H:i:s');
         if($data_atual <=  $data_ultimoacesso){
-            $itemNC =DB::table('naosconformidades_itens')->where('statusC', 0)->where('statusNC',1)->orderBy('prazo','asc')->get();
+            $itemNC = DB::table('naosconformidades_itens')->where('statusC', 0)->where('statusNC',1)->orderBy('prazo','asc')->get();
             if (count($itemNC) > 0) {
                 for ($i=0; $i < count($itemNC); $i++) {
+
+                    // BEGIN ATUALIZA PRAZO
+                    if($itemNC[$i]->prazo != 'Expirado!'){
+                        $passoudias = (int)(explode('-', explode(' ', $data_atual)[0])[2]) - (int)(explode('-', explode(' ', $itemNC[$i]->updated_at)[0])[2]);
+                        $passouhoras = ($passoudias * 24) + (int)(explode(':', explode(' ', $data_atual)[1])[0]) - (int)(explode(':', explode(' ', $itemNC[$i]->updated_at)[1])[0]);
+                        $passouminut = (int)(explode(':', explode(' ', $data_atual)[1])[1]) - (int)(explode(':', explode(' ', $itemNC[$i]->updated_at)[1])[1]);
+                        $passousegun = (int)(explode(':', explode(' ', $data_atual)[1])[2]) - (int)(explode(':', explode(' ', $itemNC[$i]->updated_at)[1])[2]);
+                        if($passousegun >= 0){
+                            $auxX = $passousegun;
+                            while($passousegun >= 0){
+                                $passousegun = $passousegun - 60;
+                                $passouminut = $passouminut + 1;
+                            }
+                        }
+                        if($passouminut >= 0){
+                            $auxX = $passouminut;
+                            while($passouminut >= 0){
+                                $passouminut = $passouminut - 60;
+                                $passouhoras = $passouhoras + 1;
+                            }
+                        }
+                        $aux = explode(':', $itemNC[$i]->prazo);
+                        $novahoras = (int)$aux[0] - (int)$passouhoras;
+                        $novaminut = (int)$aux[1] - (int)$passouminut;
+                        $novasegun = (int)$aux[2] - (int)$passousegun;
+
+                        if($novasegun >= 60){
+                            while($novasegun >= 60){
+                                $novasegun = $novasegun - 60;
+                                $novaminut = $novaminut + 1;
+                            }
+                        }
+                        if($novaminut >= 60){
+                            while($novaminut >= 60){
+                                $novaminut = $novaminut - 60;
+                                $novahoras = $novahoras + 1;
+                            }
+                        }
+
+                        if(((int)$novahoras >= 0)){
+                            if($novahoras < 10){$novahoras = '0'.$novahoras;}
+                            if($novaminut < 10){$novaminut = '0'.$novaminut;}
+                            if($novasegun < 10){$novasegun = '0'.$novasegun;}
+                            $itemNC[$i]->prazo = $novahoras.':'.$novaminut.':'.$novasegun;
+                        }else{
+                            $itemNC[$i]->prazo = 'Expirado!';
+                        }
+                        $itemNCAUPDATE = NaosconformidadesItens::Find($itemNC[$i]->id);
+                        $itemNCAUPDATE->prazo = $itemNC[$i]->prazo;
+                        $itemNCAUPDATE->save();
+                    }
+                    // END ATUALIZA PRAZO
+
                     $itemNCATUAL = [];
                     $itemNCATUAL["itemNC"] = $itemNC[$i];
                     $ncItem = [];
@@ -406,16 +415,18 @@ class AuditoriasController extends Controller
                     }
                     $itensParaReauditar[] = $ncItem;
                 }
+                // $itemNC->save();
+
+                return response()->json($itensParaReauditar);
             }else {
-                $itensParaReauditar[] = [];
+                return response()->json([]);
             }
-            return $itensParaReauditar;
         }
         else{
             return response()->json('Token Inválido!');
         }
     }
-    public function reauditarFichas(Request $request, $NCItemId){
+    public function reauditarFichas(Request $request){
         $user = Auth::user();
         $data_ultimoacesso = date('Y-m-d H:i:s', strtotime( $user->ultimoacesso . ' +12 hour'));
         $data_atual = date('Y-m-d H:i:s');
@@ -443,6 +454,7 @@ class AuditoriasController extends Controller
                 $reauditaNCItem->save();
                 return response()->json(['Sucesso' => 'Item reauditado com sucesso'], 201);
             }
+            return response()->json(['Error' => 'Item não reauditado'], 201);
         }
         else{
             return response()->json('Token Inválido!');

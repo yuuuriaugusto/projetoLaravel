@@ -15,8 +15,8 @@ class CreateNcItensTable extends Migration
     {
         Schema::create('nc_itens', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_itens')->unsigned();
-            $table->integer('id_ncitens')->unsigned();
+            $table->integer('id_itens')->unsigned()->nullable();
+            $table->integer('id_ncitens')->unsigned()->nullable();
             $table->timestamps();
         });
     }
